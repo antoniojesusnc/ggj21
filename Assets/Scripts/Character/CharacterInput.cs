@@ -5,7 +5,8 @@ public class CharacterInput : MonoBehaviour
     public const string XAxisName = "Horizontal";
     public const string YAxisName = "Vertical";
     
-    public CharacterMovementStatus CurrentStatus { get; private set; }
+    public ECharacterMovementStatus CurrentStatus { get; private set; }
+    public bool HasMovement => CurrentStatus != ECharacterMovementStatus.NONE;
     void Update()
     {
         GetKeyboardInput();
@@ -13,15 +14,17 @@ public class CharacterInput : MonoBehaviour
 
     private void GetKeyboardInput()
     {
+        CurrentStatus = ECharacterMovementStatus.NONE;
+        
         float axisX = Input.GetAxis(XAxisName);  
         if (axisX != 0)
         {
             if (axisX < 0)
             {
-                CurrentStatus = CharacterMovementStatus.LEFT;
+                CurrentStatus = ECharacterMovementStatus.LEFT;
             }else
             {
-                CurrentStatus = CharacterMovementStatus.RIGHT;
+                CurrentStatus = ECharacterMovementStatus.RIGHT;
             }
         }
         
@@ -30,10 +33,10 @@ public class CharacterInput : MonoBehaviour
         {
             if (axisY < 0)
             {
-                CurrentStatus = CharacterMovementStatus.DOWN;
+                CurrentStatus = ECharacterMovementStatus.DOWN;
             }else
             {
-                CurrentStatus = CharacterMovementStatus.UP;
+                CurrentStatus = ECharacterMovementStatus.UP;
             }
         }
 

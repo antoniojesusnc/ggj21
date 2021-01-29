@@ -2,7 +2,20 @@
 
 public class CharacterController : MonoBehaviour
 {
-    private CharacterData CharacterData => _characterData;
+    public CharacterData CharacterData => _characterData;
     [SerializeField]
     private CharacterData _characterData;
+
+
+    private ECharacterStatus _lastCharacterStatus;
+    public ECharacterStatus CharacterStatus { get; private set; }
+
+    public void ChangeCharacterStatus(ECharacterStatus newCharacterStatus)
+    {
+        if (newCharacterStatus != CharacterStatus)
+        {
+            _lastCharacterStatus = CharacterStatus;
+            CharacterStatus = newCharacterStatus;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿public enum CharacterMovementStatus 
+﻿public enum ECharacterMovementStatus 
 {
     NONE,
     UP,

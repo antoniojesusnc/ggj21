@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbb483dd4e729e04089a28d32a6f6f11, type: 3}
   m_Name: WorldData
   m_EditorClassIdentifier: 
-  GridSize: {x: 0, y: 0}
-  CellSize: 0
+  GridSize: {x: 13, y: 8}
+  CellSize: 1
+  ExtraHeight: 0.5

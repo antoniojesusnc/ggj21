@@ -5,4 +5,5 @@ public class WorldData : ScriptableObject
 {
     public Vector2 GridSize;
     public float CellSize;
+    public float ExtraHeight;
 }

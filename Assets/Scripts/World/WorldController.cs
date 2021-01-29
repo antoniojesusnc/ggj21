@@ -1,60 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldController : MonoBehaviour
 {
     public const string LAYER_WALL = "Wall";
     public const string LAYER_OBSTACLE = "Obstacle";
-    
+
     [SerializeField] private WorldData _worldData;
-    
-    [Header("Fist square to start calculations")]
-    [SerializeField] private GameObject _botLeftSquare;
+
+    [Header("Fist square to start calculations")] [SerializeField]
+    private GameObject _botLeftSquare;
 
     public LayerMask _colisionLayers;
 
-    [SerializeField]
-    private Dictionary<Vector2Int, CellInfo> _grid;
+    [SerializeField] private Dictionary<Vector2Int, CellInfo> _grid;
+
     private void Awake()
     {
         GenerateGrid();
     }
-    
-    
+
+
     [ContextMenu("Generate Grid")]
     private void GenerateGrid()
     {
-        
         _grid = new Dictionary<Vector2Int, CellInfo>();
 
+        CheckWallsHorizontal();
+        CheckWallsVertical();
+    }
+
+    private void CheckWallsVertical()
+    {
         var wallDetector = _botLeftSquare.transform.position + _botLeftSquare.transform.up * 1;
-        
+        for (int i = 0; i < _worldData.GridSize.y; i++)
+        {
+            Ray ray = new Ray(wallDetector, _botLeftSquare.transform.right);
+            var allWalls = Physics.RaycastAll(ray, _worldData.GridSize.y * _worldData.CellSize, _colisionLayers);
+
+            for (int j = 0; j < allWalls.Length; j++)
+            {
+                int wallXCell = Mathf.RoundToInt(allWalls[j].distance);
+                AddCellInto(new Vector2Int(wallXCell, i), GetECellTypeFromLayer(allWalls[j]));
+            }
+
+            wallDetector += _botLeftSquare.transform.forward * _worldData.CellSize;
+        }
+    }
+
+    private void CheckWallsHorizontal()
+    {
+        var wallDetector = _botLeftSquare.transform.position + _botLeftSquare.transform.up * 1;
         for (int i = 0; i < _worldData.GridSize.x; i++)
         {
-            Ray ray = new Ray(wallDetector, -_botLeftSquare.transform.right);
+            Ray ray = new Ray(wallDetector, _botLeftSquare.transform.forward);
             var allWalls = Physics.RaycastAll(ray, _worldData.GridSize.y * _worldData.CellSize, _colisionLayers);
-            
+
             for (int j = 0; j < allWalls.Length; j++)
             {
                 int wallYCell = Mathf.RoundToInt(allWalls[j].distance);
-                AddCellInto(new Vector2Int(i, wallYCell), GetECellTypeFromLayer(allWalls[i]));
+                AddCellInto(new Vector2Int(i, wallYCell), GetECellTypeFromLayer(allWalls[j]));
             }
-            
-            wallDetector += _botLeftSquare.transform.forward * _worldData.CellSize;
+
+            wallDetector += _botLeftSquare.transform.right * _worldData.CellSize;
         }
     }
 
     private ECellType GetECellTypeFromLayer(RaycastHit allWall)
     {
-        if(allWall.transform.gameObject.layer == LayerMask.NameToLayer(LAYER_WALL))
+        if (allWall.transform.gameObject.layer == LayerMask.NameToLayer(LAYER_WALL))
         {
             return ECellType.Wall;
         }
         else if (allWall.transform.gameObject.layer == LayerMask.NameToLayer(LAYER_OBSTACLE))
         {
-            return ECellType.Obstacle;            
+            return ECellType.Obstacle;
         }
 
         return ECellType.None;
@@ -62,6 +82,11 @@ public class WorldController : MonoBehaviour
 
     private void AddCellInto(Vector2Int cellPosition, ECellType type)
     {
+        Debug.Log($"wall detect {cellPosition}");
+        
+        var tempGo = new GameObject(cellPosition.ToString());
+        tempGo.transform.position = GetWorldPosition(cellPosition);
+            
         if (!_grid.TryGetValue(cellPosition, out var cellInfo))
         {
             _grid.Add(cellPosition, new CellInfo(cellPosition, type));
@@ -74,11 +99,46 @@ public class WorldController : MonoBehaviour
 
     public bool CanMoveTo(Vector2Int cellObjetive, out CellInfo cellInfo)
     {
+        if (IsOutOfBounds(cellObjetive))
+        {
+            cellInfo = null;
+            return false;
+        }
+
         if (_grid.TryGetValue(cellObjetive, out cellInfo))
         {
             return cellInfo.IsWalkable();
         }
 
         return true;
+    }
+
+    private bool IsOutOfBounds(Vector2Int cellObjetive)
+    {
+        if (cellObjetive.x < 0 || cellObjetive.y < 0)
+        {
+            return true;
+        }
+
+        if (cellObjetive.x >= _worldData.GridSize.x ||
+            cellObjetive.y >= _worldData.GridSize.y)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public Vector3 GetWorldPosition(Vector2Int nextGridPosition)
+    {
+        Vector3 positionIncrement = new Vector3(
+            _worldData.CellSize * nextGridPosition.x,
+            0,
+            _worldData.CellSize * nextGridPosition.y
+        );
+        
+        Vector3 worldPosition = _botLeftSquare.transform.position + positionIncrement;
+        worldPosition.y = _worldData.ExtraHeight;
+        return worldPosition;
     }
 }
