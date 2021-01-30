@@ -25,4 +25,4 @@ MonoBehaviour:
   edgeDistTreshold: 1
   lightExtraAngle: -10
   lightExtraDistance: 0
-  timeToChangeLookDirection: 1
+  timeToChangeLookDirection: 0.2

@@ -12,10 +12,9 @@ public class FieldOfViewController : MonoBehaviour
 	private Rigidbody _rigidbody;
 	private Camera _camera;
 
-	[SerializeField]
-	private Vector2 _lockDirection;
+	[SerializeField] private Vector2 _lockDirection;
 	bool _isChangingLookDirection = true;
-	float _timeStamp = 0;	
+	float _timeStamp = 0;
 	private Vector2 _nextLookDirection;
 
 	public List<Transform> Targets => _targets;
@@ -68,17 +67,17 @@ public class FieldOfViewController : MonoBehaviour
 	private void UpdateChangeLookDirection()
 	{
 		_timeStamp += Time.deltaTime;
-		
-		
-		Vector3 lookDirection3D = new Vector3(_lockDirection.x, 0, _lockDirection.y);  
+
+		Vector3 lookDirection3D = new Vector3(_lockDirection.x, 0, _lockDirection.y);
 		Vector3 nextLookDirection3D = new Vector3(_nextLookDirection.x, 0, _nextLookDirection.y);
+		var quaternionLookDirection3D = Quaternion.LookRotation(lookDirection3D, Vector3.up);
+		var quaternionNextLookDirection3D = Quaternion.LookRotation(nextLookDirection3D, Vector3.up);
 		var rotation = Quaternion.Lerp(
-			Quaternion.LookRotation(lookDirection3D, Vector3.up),
-			Quaternion.LookRotation(nextLookDirection3D, Vector3.up),
+			quaternionLookDirection3D,
+			quaternionNextLookDirection3D,
 			_timeStamp /
-			                                             _enemyController.FieldOfViewData.timeToChangeLookDirection);
-		
-		Debug.Log(rotation.eulerAngles);
+			_enemyController.FieldOfViewData.timeToChangeLookDirection);
+
 		transform.rotation = rotation;
 
 		if (_timeStamp > _enemyController.FieldOfViewData.timeToChangeLookDirection)
@@ -296,7 +295,7 @@ public class FieldOfViewController : MonoBehaviour
 
 	public void SetLookDirection(Vector2 newLockDirection)
 	{
-		if (_isChangingLookDirection || _lockDirection == newLockDirection )
+		if (_isChangingLookDirection || _lockDirection == newLockDirection)
 		{
 			return;
 		}

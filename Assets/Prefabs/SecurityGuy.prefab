@@ -348,7 +348,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4979327597470599203}
   m_LocalRotation: {x: 0.27781588, y: 0.36497167, z: -0.1150751, w: 0.8811196}
-  m_LocalPosition: {x: 0.04, y: 0, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7735944584208346513}
@@ -394,7 +394,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3427114271967980436, guid: 3f3c56ecdcdf6384981696deefcb4c4b, type: 3}
+  m_Sprite: {fileID: 6767328098095716471, guid: 7277045c841d9c249b1b9f9167bd1a5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -449,6 +449,7 @@ GameObject:
   - component: {fileID: 3821219790623959793}
   - component: {fileID: 1654968549201500821}
   - component: {fileID: 4312021616656259001}
+  - component: {fileID: 1316717472}
   m_Layer: 12
   m_Name: SecurityGuy
   m_TagString: Untagged
@@ -484,7 +485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40949adfcce7e114ea11401b1ec8e6a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterData: {fileID: 0}
+  _characterData: {fileID: 11400000, guid: 062ffdba86f0b0f48b585bb15cdc8276, type: 2}
   _fieldOfViewData: {fileID: 11400000, guid: e6ce3188944e974418d96d89ab0d2773, type: 2}
 --- !u!114 &3821219790623959793
 MonoBehaviour:
@@ -498,7 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d0383f9d459d04380782e90fc1e983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridPosition: {x: 0, y: 0}
+  _gridPosition: {x: 4, y: 0}
   _lastGridPosition: {x: 0, y: 0}
   _nextGridPosition: {x: 0, y: 0}
 --- !u!114 &1654968549201500821
@@ -523,7 +524,7 @@ Animator:
   m_GameObject: {fileID: 7913407768751329915}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8e22eb206f7555c4095cca5bbf7fa282, type: 2}
+  m_Controller: {fileID: 9100000, guid: 565ac12de978e0c498b14a357874d4e9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -532,3 +533,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1316717472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7913407768751329915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c56ae66306e70584c901f54f4e7b549f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _temp: 0
+  _input: 0
+  _debugInput: 0
+  _timestamp: 0
+  _walkFor: 2
