@@ -84,20 +84,29 @@ public class WorldController : MonoBehaviour
         return ECellType.None;
     }
 
-    private void AddCellInto(Vector2Int cellPosition, ECellType type)
+    public void AddCellInto(Vector2Int cellPosition, ECellType type)
     {
         //Debug.Log($"wall detect {cellPosition}");
         /*
         var tempGo = new GameObject(cellPosition.ToString());
         tempGo.transform.position = GetWorldPosition(cellPosition);
             */
+        if (_grid == null)
+        {
+            return;
+        }
+        
         if (!_grid.TryGetValue(cellPosition, out var cellInfo))
         {
             _grid.Add(cellPosition, new CellInfo(cellPosition, type));
         }
         else
         {
-            //Debug.LogWarning($"Grid cell Info already exist in {cellPosition.x}{cellPosition.y}");
+            if (cellInfo.Type != type)
+            {
+                cellInfo.SetType(type);
+                //Debug.LogWarning($"Grid cell Info already but different Type, replacing it {cellPosition.x}{cellPosition.y}");
+            }
         }
     }
 
@@ -111,7 +120,7 @@ public class WorldController : MonoBehaviour
 
         if (_grid.TryGetValue(cellObjetive, out cellInfo))
         {
-            return cellInfo.IsWalkable();
+            return cellInfo.IsWalkable;
         }
 
         return true;
@@ -158,6 +167,18 @@ public class WorldController : MonoBehaviour
 
         return gridPosition;
     }
+    
+    public CellInfo GetCellInfo(Vector2Int gridPosition)
+    {
+        if(_grid.TryGetValue(gridPosition, out var cellInfo))
+        {
+            return cellInfo;
+        }
+        else
+        {
+            return new CellInfo(gridPosition, ECellType.None);
+        }
+    }
 
     private void OnDrawGizmos()
     {
@@ -166,7 +187,6 @@ public class WorldController : MonoBehaviour
             return;
         }
 
-        
         // draw horizontal
         var lineOrigin  = _botLeftSquare.transform.position + _botLeftSquare.transform.up * 0.1f;
         lineOrigin -= _botLeftSquare.transform.right * _worldData.CellSize * 0.5f;
@@ -193,4 +213,4 @@ public class WorldController : MonoBehaviour
             lineDestiny += step;
         }
     }
-    }
+}

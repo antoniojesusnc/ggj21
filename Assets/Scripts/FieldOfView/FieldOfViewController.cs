@@ -70,8 +70,19 @@ public class FieldOfViewController : MonoBehaviour
 
 		Vector3 lookDirection3D = new Vector3(_lockDirection.x, 0, _lockDirection.y);
 		Vector3 nextLookDirection3D = new Vector3(_nextLookDirection.x, 0, _nextLookDirection.y);
-		var quaternionLookDirection3D = Quaternion.LookRotation(lookDirection3D, Vector3.up);
-		var quaternionNextLookDirection3D = Quaternion.LookRotation(nextLookDirection3D, Vector3.up);
+
+		Quaternion quaternionLookDirection3D = Quaternion.identity;
+		if (lookDirection3D != Vector3.zero)
+		{
+			quaternionLookDirection3D = Quaternion.LookRotation(lookDirection3D, Vector3.up);
+		}
+
+		Quaternion quaternionNextLookDirection3D = Quaternion.identity;
+		if (nextLookDirection3D != Vector3.zero)
+		{
+			quaternionNextLookDirection3D = Quaternion.LookRotation(nextLookDirection3D, Vector3.up);
+		}
+
 		var rotation = Quaternion.Lerp(
 			quaternionLookDirection3D,
 			quaternionNextLookDirection3D,

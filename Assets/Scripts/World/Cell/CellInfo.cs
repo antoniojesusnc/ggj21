@@ -19,6 +19,11 @@ public class CellInfo: IEquatable<CellInfo>
         Type = newType;
     }
 
+    public void SetType(ECellType newType)
+    {
+        Type = newType;
+    }
+    
     public bool Equals(CellInfo other)
     {
         if (PositionX == other.PositionX && 
@@ -30,14 +35,20 @@ public class CellInfo: IEquatable<CellInfo>
         return false;
     }
 
-    public bool IsWalkable()
+    public bool IsWalkable
     {
-        switch (Type)
+        get
         {
-            case ECellType.None:
-                return true;
-            default:
-                return false;
+            switch (Type)
+            {
+                case ECellType.None:
+                case ECellType.Collectable:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
+
+    public bool IsCollectable => Type == ECellType.Collectable;
 }

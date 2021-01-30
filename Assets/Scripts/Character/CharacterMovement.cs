@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class CharacterMovement : MonoBehaviour
@@ -8,7 +6,7 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController _characterController;
     private ICharacterInput _characterInput;
 
-    private WorldController WorldController 
+    private WorldController WorldController
     {
         get
         {
@@ -20,17 +18,19 @@ public class CharacterMovement : MonoBehaviour
             return _worldController;
         }
     }
+
     private WorldController _worldController;
     private Animator _animator;
 
-    public Vector2Int _gridPosition;
+    public Vector2Int GridPosition => _gridPosition;
+    private Vector2Int _gridPosition;
 
     private SpriteRenderer _spriteRenderer;
     private ECharacterMovement _movementDir;
 
     // movement related
-    public Vector2Int _lastGridPosition;
-    public Vector2Int _nextGridPosition;
+    private Vector2Int _lastGridPosition;
+    private Vector2Int _nextGridPosition;
     private bool _moving;
     private float _movingTimeStamp;
     private Vector3 _movementOrigin;
@@ -52,7 +52,7 @@ public class CharacterMovement : MonoBehaviour
         _gridPosition = WorldController.GetGridPosition(transform.position);
         AdjustToGridPosition();
     }
-    
+
     private void AdjustToGridPosition()
     {
         transform.position = WorldController.GetWorldPosition(_gridPosition);
@@ -168,11 +168,11 @@ public class CharacterMovement : MonoBehaviour
 
     private void FinishMovement()
     {
-        _characterController.ChangeCharacterStatus(ECharacterStatus.Idle);
         _lastGridPosition = _gridPosition;
         _gridPosition = _nextGridPosition;
         AdjustToGridPosition();
         _moving = false;
+        _characterController.ChangeCharacterStatus(ECharacterStatus.Idle);
 
         Vector2Int offset = _gridPosition - _lastGridPosition;
         SetMovementDir(offset);

@@ -7,8 +7,8 @@ public class CharacterController : MonoBehaviour
     private CharacterData _characterData;
 
     public Vector3 LookDirection { get; private set; }
-
-    private ECharacterStatus _lastCharacterStatus;
+    
+    public ECharacterStatus LastCharacterStatus { get; private set; }
     public ECharacterStatus CharacterStatus { get; private set; }
 
 
@@ -19,12 +19,12 @@ public class CharacterController : MonoBehaviour
             LookDirection = newLookDirection;
         }
     }
-    
-    public void ChangeCharacterStatus(ECharacterStatus newCharacterStatus)
+
+    public virtual void ChangeCharacterStatus(ECharacterStatus newCharacterStatus)
     {
         if (newCharacterStatus != CharacterStatus)
         {
-            _lastCharacterStatus = CharacterStatus;
+            LastCharacterStatus = CharacterStatus;
             CharacterStatus = newCharacterStatus;
         }
     }

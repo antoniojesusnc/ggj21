@@ -10824,22 +10824,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1140186531817658593, guid: a343b5a11884339499be5f1f7c74943b, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0.14150941
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140186531817658593, guid: a343b5a11884339499be5f1f7c74943b, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0.14150941
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140186531817658593, guid: a343b5a11884339499be5f1f7c74943b, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0.14150941
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140186531817658593, guid: a343b5a11884339499be5f1f7c74943b, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: 1140186531817658595, guid: a343b5a11884339499be5f1f7c74943b, type: 3}
       propertyPath: m_Name
       value: Main Camera
@@ -10954,18 +10938,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1484204243, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 1484204244, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
-      propertyPath: m_Range
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1484204244, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
-      propertyPath: m_SpotAngle
-      value: 90
-      objectReference: {fileID: 0}
     - target: {fileID: 2015041336656082601, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -11033,15 +11005,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5717233127231251903, guid: 430a001f83bee9d469f7482660273590, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.64
+      value: 12.54
       objectReference: {fileID: 0}
     - target: {fileID: 5717233127231251903, guid: 430a001f83bee9d469f7482660273590, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.54
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 5717233127231251903, guid: 430a001f83bee9d469f7482660273590, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.15
+      value: -7.29
       objectReference: {fileID: 0}
     - target: {fileID: 5717233127231251903, guid: 430a001f83bee9d469f7482660273590, type: 3}
       propertyPath: m_LocalRotation.w

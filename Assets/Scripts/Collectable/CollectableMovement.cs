@@ -8,12 +8,38 @@ public class CollectableMovement : MonoBehaviour
     private Vector3 _originalPosition;
     private float _totalDeltaTime;
     
+    private WorldController WorldController 
+    {
+        get
+        {
+            if (_worldController == null)
+            {
+                _worldController = FindObjectOfType<WorldController>();
+            }
+
+            return _worldController;
+        }
+    }
+
+    public Vector2Int GridPosition { get; private set; }
+
+    private WorldController _worldController;
+
     void Start()
     {
         _collectableController = GetComponent<CollectableController>();
         _originalPosition = transform.position;
+
+        AdjustToGridPosition();
     }
 
+    [ContextMenu("AdjustToGridPosition")]
+    private void AdjustToGridPosition()
+    {
+        GridPosition = WorldController.GetGridPosition(transform.position);
+        transform.position = WorldController.GetWorldPosition(GridPosition);
+        _worldController.AddCellInto(GridPosition, ECellType.Collectable);
+    }
     void Update()
     {
         UpdateFloatingEffect();
@@ -24,9 +50,8 @@ public class CollectableMovement : MonoBehaviour
         _totalDeltaTime += Time.deltaTime;
 
         Vector3 newHeight = _originalPosition +
-                            Vector3.up *
-                            Mathf.Sin(_totalDeltaTime/_collectableController.CollectableData.floatingDuration) *
-                            _collectableController.CollectableData.heightIncrement;
+                            Mathf.Sin(_totalDeltaTime / _collectableController.CollectableData.floatingDuration) *
+                            _collectableController.CollectableData.heightIncrement * Vector3.up;
         transform.position = newHeight;
     }
 }

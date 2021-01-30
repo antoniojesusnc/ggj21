@@ -3,4 +3,5 @@
     None,
     Wall,
     Obstacle,
+    Collectable,
 }
