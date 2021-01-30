@@ -18,8 +18,10 @@ public class FieldOfViewController : MonoBehaviour
 	private List<Transform> _targets = new List<Transform>();
 
 	private float _maskCutawayDst = .1f;
-	private MeshFilter _meshFilter;
-	private Mesh _mesh;
+	[SerializeField] private MeshFilter _meshFilterCone;
+	private Mesh _meshCone;
+	[SerializeField] private MeshFilter _meshFilterCircle;
+	private Mesh _meshCircle;
 
 	private LevelController _levelController;
 	private EnemyController _enemyController;
@@ -33,22 +35,25 @@ public class FieldOfViewController : MonoBehaviour
 	{
 		_enemyController = GetComponentInParent<EnemyController>();
 		_levelController = FindObjectOfType<LevelController>();
-		
+
 		_rigidbody = GetComponent<Rigidbody>();
 		_camera = Camera.main;
 
 
-		_meshFilter = GetComponent<MeshFilter>();
-		_mesh = new Mesh();
-		_mesh.name = "FOV";
-		_meshFilter.mesh = _mesh;
+		_meshCone = new Mesh();
+		_meshCone.name = "FOVCone";
+		_meshFilterCone.mesh = _meshCone;
+
+		_meshCircle = new Mesh();
+		_meshCircle.name = "FOVCircle";
+		_meshFilterCircle.mesh = _meshCircle;
 
 		StartCoroutine(FindTargetsEachTimeCo(0.1f));
 	}
 
 	void LateUpdate()
 	{
-		DrawFieldOfView();
+		DrawAllFieldOfView();
 	}
 
 	public Vector3 DirectionFromAngle(float angleInDegrees, bool isGlobalAngle)
@@ -70,21 +75,26 @@ public class FieldOfViewController : MonoBehaviour
 		while (true)
 		{
 			yield return new WaitForSeconds(delay);
-			FindVisibleTargets();
+			// cone
+			FindVisibleTargets(_enemyController.FieldOfViewData.coneDistanceToDetect,
+				_enemyController.FieldOfViewData.coneAngleToDetect);
+			// circle around
+			FindVisibleTargets(_enemyController.FieldOfViewData.circleDistanceToDetect,
+				_enemyController.FieldOfViewData.circleAngleToDetect);
 		}
 	}
 
-	private void FindVisibleTargets()
+	private void FindVisibleTargets(float distance, float angle)
 	{
 		_targets.Clear();
 		Collider[] targetsInViewRadius =
-			Physics.OverlapSphere(transform.position, _enemyController.FieldOfViewData.distanceToDetect, _targetMask);
+			Physics.OverlapSphere(transform.position, distance, _targetMask);
 
 		for (int i = 0; i < targetsInViewRadius.Length; i++)
 		{
 			Transform target = targetsInViewRadius[i].transform;
 			Vector3 directionToTarget = (target.position - transform.position).normalized;
-			if (Vector3.Angle(transform.forward, directionToTarget) < _enemyController.FieldOfViewData.angleToDetect / 2)
+			if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
 			{
 				float distanceToTarget = Vector3.Distance(transform.position, target.position);
 				if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, _obstacleMask))
@@ -96,18 +106,29 @@ public class FieldOfViewController : MonoBehaviour
 		}
 	}
 
-	void DrawFieldOfView()
+	void DrawAllFieldOfView()
 	{
-		int stepCount = Mathf.RoundToInt(_enemyController.FieldOfViewData.angleToShow *
-		                                 _enemyController.FieldOfViewData.presition);
-		float stepAngleSize = _enemyController.FieldOfViewData.angleToShow / stepCount;
+		DrawFieldOfView(_enemyController.FieldOfViewData.coneAngleToShow,
+			_enemyController.FieldOfViewData.coneDistanceToShow, _meshCone);
+
+		DrawFieldOfView(_enemyController.FieldOfViewData.circleAngleToShow,
+			_enemyController.FieldOfViewData.circleDistanceToShow, _meshCircle);
+
+	}
+
+	void DrawFieldOfView(float angle, float distance, Mesh mesh)
+	{
+
+		int stepCount = Mathf.RoundToInt(angle *
+		                                 _enemyController.FieldOfViewData.accuracy);
+		float stepAngleSize = angle / stepCount;
 		List<Vector3> viewPoints = new List<Vector3>();
 		ViewCastInfo oldViewCast = new ViewCastInfo();
 		for (int i = 0; i <= stepCount; i++)
 		{
-			float angle = transform.eulerAngles.y - _enemyController.FieldOfViewData.angleToShow / 2 +
-			              stepAngleSize * i;
-			ViewCastInfo newViewCast = ViewCast(angle);
+			float viewAngle = transform.eulerAngles.y - angle / 2 +
+			                  stepAngleSize * i;
+			ViewCastInfo newViewCast = ViewCast(viewAngle, distance);
 
 			if (i > 0)
 			{
@@ -116,7 +137,7 @@ public class FieldOfViewController : MonoBehaviour
 				if (oldViewCast.Hit != newViewCast.Hit ||
 				    (oldViewCast.Hit && newViewCast.Hit && edgeDstThresholdExceeded))
 				{
-					EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
+					EdgeInfo edge = FindEdge(oldViewCast, newViewCast, distance);
 					if (edge.PointA != Vector3.zero)
 					{
 						viewPoints.Add(edge.PointA);
@@ -152,14 +173,14 @@ public class FieldOfViewController : MonoBehaviour
 			}
 		}
 
-		_mesh.Clear();
+		mesh.Clear();
 
-		_mesh.vertices = vertices;
-		_mesh.triangles = triangles;
-		_mesh.RecalculateNormals();
+		mesh.vertices = vertices;
+		mesh.triangles = triangles;
+		mesh.RecalculateNormals();
 	}
 
-	EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
+	EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast, float distance)
 	{
 		float minAngle = minViewCast.Angle;
 		float maxAngle = maxViewCast.Angle;
@@ -169,7 +190,7 @@ public class FieldOfViewController : MonoBehaviour
 		for (int i = 0; i < _enemyController.FieldOfViewData.edgeResolveIterations; i++)
 		{
 			float angle = (minAngle + maxAngle) / 2;
-			ViewCastInfo newViewCast = ViewCast(angle);
+			ViewCastInfo newViewCast = ViewCast(angle, distance);
 
 			bool edgeDstThresholdExceeded = Mathf.Abs(minViewCast.Distance - newViewCast.Distance) >
 			                                _enemyController.FieldOfViewData.edgeDistTreshold;
@@ -189,20 +210,18 @@ public class FieldOfViewController : MonoBehaviour
 	}
 
 
-	ViewCastInfo ViewCast(float globalAngle)
+	ViewCastInfo ViewCast(float globalAngle, float distance)
 	{
 		Vector3 dir = DirFromAngle(globalAngle, true);
 		RaycastHit hit;
 
-		if (Physics.Raycast(transform.position, dir, out hit, _enemyController.FieldOfViewData.distanceToShow,
-			_obstacleMask))
+		if (Physics.Raycast(transform.position, dir, out hit, distance, _obstacleMask))
 		{
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
 		}
 		else
 		{
-			return new ViewCastInfo(false, transform.position + dir * _enemyController.FieldOfViewData.distanceToShow,
-				_enemyController.FieldOfViewData.distanceToShow, globalAngle);
+			return new ViewCastInfo(false, transform.position + dir * distance, distance, globalAngle);
 		}
 	}
 
@@ -218,10 +237,10 @@ public class FieldOfViewController : MonoBehaviour
 
 	public struct ViewCastInfo
 	{
-		public bool Hit{ get; private set; }
-		public Vector3 Point{ get; private set; }
-		public float Distance{ get; private set; }
-		public float Angle{ get; private set; }
+		public bool Hit { get; private set; }
+		public Vector3 Point { get; private set; }
+		public float Distance { get; private set; }
+		public float Angle { get; private set; }
 
 		public ViewCastInfo(bool newHit, Vector3 newPoint, float newDistance, float newAngle)
 		{
@@ -235,7 +254,7 @@ public class FieldOfViewController : MonoBehaviour
 	public struct EdgeInfo
 	{
 		public Vector3 PointA { get; private set; }
-		public Vector3 PointB{ get; private set; }
+		public Vector3 PointB { get; private set; }
 
 		public EdgeInfo(Vector3 newPointA, Vector3 newPointB)
 		{

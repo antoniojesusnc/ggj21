@@ -15,7 +15,7 @@ public class SpotLightController : MonoBehaviour
 
     private void SetLightProperties()
     {
-        _light.spotAngle = _enemyController.FieldOfViewData.angleToShow +_enemyController.FieldOfViewData.lightExtraAngle;
-        _light.range = _enemyController.FieldOfViewData.distanceToShow +_enemyController.FieldOfViewData.lightExtraDistance;
+        _light.spotAngle = _enemyController.FieldOfViewData.coneAngleToShow +_enemyController.FieldOfViewData.lightExtraAngle;
+        _light.range = _enemyController.FieldOfViewData.coneDistanceToShow +_enemyController.FieldOfViewData.lightExtraDistance;
     }
 }

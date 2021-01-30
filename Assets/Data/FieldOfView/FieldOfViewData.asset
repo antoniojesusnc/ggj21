@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be9a649ebd58f3469b120589f2570a1, type: 3}
   m_Name: FieldOfViewData
   m_EditorClassIdentifier: 
-  distanceToShow: 8
-  angleToShow: 60
-  distanceToDetect: 6.5
-  angleToDetect: 50
-  presition: 0.2
+  coneDistanceToShow: 8
+  coneAngleToShow: 60
+  coneDistanceToDetect: 5.5
+  coneAngleToDetect: 50
+  circleDistanceToShow: 1.5
+  circleAngleToShow: 360
+  circleDistanceToDetect: 1
+  circleAngleToDetect: 360
+  accuracy: 0.2
   edgeResolveIterations: 2
   edgeDistTreshold: 1
-  lightExtraAngle: -5
+  lightExtraAngle: -10
   lightExtraDistance: 0
