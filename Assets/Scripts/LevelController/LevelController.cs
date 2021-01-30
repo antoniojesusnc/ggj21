@@ -95,6 +95,11 @@ public class LevelController : MonoBehaviour
         _safeCellManager.CheckForSafeArea(playerController.GridPosition);
     }
 
+    void Update()
+    {
+        UIGame.Instance.SetBarValue(_detectionController.Value);
+    }
+
     public void AllTilesCollected()
     {
         Debug.Log("RUN!!!");
@@ -105,6 +110,8 @@ public class LevelController : MonoBehaviour
         Debug.Log("Win!!!");
         DisableAllElementsBecauseLevelComplete();
         IsLevelFinished = true;
+        
+        UIGame.Instance.OpenVictoryPopup();
     }
     
     public void GameOverLevel()
@@ -112,6 +119,8 @@ public class LevelController : MonoBehaviour
         Debug.Log("Game Over !!!");
         DisableAllElementsBecauseLevelComplete();
         IsLevelFinished = true;
+        
+        UIGame.Instance.OpenGameOver();
     }
 
     public void PlayerMoveToNewCell(PlayerController playerController)

@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   increasePerDistance: 0.3
   decreasePerSeconds: 0.2
-  maxValue: 5
+  maxValueFirstState: 2
+  maxValueSecondState: 4
+  maxValueThirdState: 6

@@ -5,5 +5,8 @@ public class DetectionData : ScriptableObject
 {
     public float increasePerDistance;
     public float decreasePerSeconds;
-    public float maxValue;
+    
+    public float maxValueFirstState;
+    public float maxValueSecondState;
+    public float maxValueThirdState;
 }

@@ -3,11 +3,24 @@
 public class DetectionController : MonoBehaviour
 {
     [SerializeField] private DetectionData _detectionData;
-    
+
     LevelController _levelController;
 
-    private float Value => _value;
+    public int AlertLevel { get; private set; } 
+    public float Value
+    {
+        get
+        {
+            return _value;
+        }
+        set
+        {
+            _value = value;
+            _value = Mathf.Clamp(_value, 0, _detectionData.maxValueThirdState);
+        }
+    }
     private float _value; 
+    
     
     void Start()
     {
@@ -17,19 +30,44 @@ public class DetectionController : MonoBehaviour
 
     public void CharacterDetected(float distance)
     {
-        _value += _detectionData.increasePerDistance * distance;
+        Value += _detectionData.increasePerDistance * distance;
 
+        int newAlertLevel = GetAlertLevelBaseOnValue();
+        if (AlertLevel != newAlertLevel)
+        {
+            AlertLevel = newAlertLevel;
+        }
+        
         Debug.Log($"Value: {_value}  distance: {distance}");
-        _value = Mathf.Clamp(_value, 0, _detectionData.maxValue);
-        if (_value >= _detectionData.maxValue)
+        
+        if (Value >= _detectionData.maxValueThirdState)
         {
             _levelController.GameOverLevel();
         }
     }
 
+    private int GetAlertLevelBaseOnValue()
+    {
+        if (Value < _detectionData.maxValueFirstState)
+        {
+            return 0;
+        }
+        else if(Value < _detectionData.maxValueSecondState)
+        {
+            return 1;
+        }
+        else if(Value < _detectionData.maxValueSecondState)
+        {
+            return 2;
+        }
+        else
+        {
+            return 3;
+        }
+    }
+    
     void Update()
     {
-        _value -= _detectionData.decreasePerSeconds * Time.deltaTime;
-        _value = Mathf.Clamp(_value, 0, _detectionData.maxValue);
+        Value -= _detectionData.decreasePerSeconds * Time.deltaTime;
     }
 }

@@ -9,7 +9,10 @@ public class UIGame : MonoBehaviour
     
     [SerializeField]
     private GameObject _gameOverPopup;
-
+    
+    [SerializeField]
+    private UIDetectionBar _uiDetectionBar;
+    
     void Start()
     {
         Instance = this;
@@ -24,5 +27,9 @@ public class UIGame : MonoBehaviour
     {
         _gameOverPopup.gameObject.SetActive(true);  
     }
-    
+
+    public void SetBarValue(float value)
+    {
+        _uiDetectionBar.SetBarValue(value);
+    }
 }
