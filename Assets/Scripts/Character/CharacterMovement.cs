@@ -93,7 +93,7 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"CANNOT Move to {cellObjetive}");
+            //Debug.LogWarning($"CANNOT Move to {cellObjetive}");
         }
     }
 

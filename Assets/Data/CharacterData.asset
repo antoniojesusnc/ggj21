@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bc7446147c2ed841bee737c01f19a51, type: 3}
   m_Name: CharacterData
   m_EditorClassIdentifier: 
-  _characterSpeedBySquare: 0.5
+  _characterSpeedBySquare: 0.6
   _characterDelayStartWalk: 0.1

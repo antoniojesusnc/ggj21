@@ -87,10 +87,10 @@ public class WorldController : MonoBehaviour
     private void AddCellInto(Vector2Int cellPosition, ECellType type)
     {
         //Debug.Log($"wall detect {cellPosition}");
-        
+        /*
         var tempGo = new GameObject(cellPosition.ToString());
         tempGo.transform.position = GetWorldPosition(cellPosition);
-            
+            */
         if (!_grid.TryGetValue(cellPosition, out var cellInfo))
         {
             _grid.Add(cellPosition, new CellInfo(cellPosition, type));
