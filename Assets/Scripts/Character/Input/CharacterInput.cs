@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CharacterInput : MonoBehaviour, ICharacterInput
 {
@@ -17,6 +18,12 @@ public class CharacterInput : MonoBehaviour, ICharacterInput
     {
         var levelController = FindObjectOfType<LevelController>();
         levelController.AddDisableWhenLevelComplete(this);
+    }
+
+
+    private void OnDisable()
+    {
+        CurrentInput = ECharacterInput.NONE;
     }
 
     void Update()

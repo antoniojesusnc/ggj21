@@ -17,9 +17,10 @@ public class DetectionController : MonoBehaviour
 
     public void CharacterDetected(float distance)
     {
-        _value += _detectionData.increasePerDetection;
+        _value += _detectionData.increasePerDistance * distance;
 
-        Mathf.Clamp(_value, 0, _detectionData.maxValue);
+        Debug.Log($"Value: {_value}  distance: {distance}");
+        _value = Mathf.Clamp(_value, 0, _detectionData.maxValue);
         if (_value >= _detectionData.maxValue)
         {
             _levelController.GameOverLevel();
@@ -29,5 +30,6 @@ public class DetectionController : MonoBehaviour
     void Update()
     {
         _value -= _detectionData.decreasePerSeconds * Time.deltaTime;
+        _value = Mathf.Clamp(_value, 0, _detectionData.maxValue);
     }
 }
