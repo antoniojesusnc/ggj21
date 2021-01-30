@@ -1,4 +1,4 @@
-﻿public enum ECharacterMovementStatus 
+﻿public enum ECharacterInput 
 {
     NONE,
     UP,

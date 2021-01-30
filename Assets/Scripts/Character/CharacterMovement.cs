@@ -8,22 +8,28 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController _characterController;
     private CharacterInput _characterInput;
     private WorldController _worldController;
+    private Animator _animator;
 
     public Vector2Int _gridPosition;
-    
-    
+
+    private SpriteRenderer _spriteRenderer;
+    private ECharacterMovement _movementDir;
+
     // movement related
+    public Vector2Int _lastGridPosition;
     public Vector2Int _nextGridPosition;
     private bool _moving;
     private float _movingTimeStamp;
     private Vector3 _movementOrigin;
     private Vector3 _movementDestiny;
-    
+
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
         _characterInput = GetComponent<CharacterInput>();
         _worldController = GameObject.FindObjectOfType<WorldController>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
 
         SetInitialPosition();
     }
@@ -44,7 +50,6 @@ public class CharacterMovement : MonoBehaviour
         {
             if (CanMove() && _characterInput.HasMovement)
             {
-                Debug.Log("asdfasdf");
                 TryToMove();
             }
         }
@@ -53,18 +58,20 @@ public class CharacterMovement : MonoBehaviour
     private void UpdateMove()
     {
         _movingTimeStamp += Time.deltaTime;
-        transform.position = Vector3.Lerp(_movementOrigin, _movementDestiny,
-            _movingTimeStamp/ _characterController.CharacterData._characterSpeedBySquare);
 
-        if (IsMovementFinished())
+        float delayTime = _characterController.CharacterData._characterDelayStartWalk;
+        if (_movingTimeStamp < delayTime)
+        {
+            return;
+        }
+
+        transform.position = Vector3.Lerp(_movementOrigin, _movementDestiny,
+            (_movingTimeStamp - delayTime) / _characterController.CharacterData._characterSpeedBySquare);
+
+        if (_movingTimeStamp >= _characterController.CharacterData._characterSpeedBySquare + delayTime)
         {
             FinishMovement();
         }
-    }
-
-    private bool IsMovementFinished()
-    {
-        return _movingTimeStamp >= _characterController.CharacterData._characterSpeedBySquare;
     }
 
     private bool CanMove()
@@ -81,8 +88,8 @@ public class CharacterMovement : MonoBehaviour
         Vector2Int cellObjetive = GetCellObjetive();
         if (_worldController.CanMoveTo(cellObjetive, out var cellInfo))
         {
-            Debug.LogWarning($"Moving to {cellObjetive}");
-            DoMovement(cellObjetive);
+            //Debug.LogWarning($"Moving to {cellObjetive}");
+            StartMovement(cellObjetive);
         }
         else
         {
@@ -90,7 +97,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    private void DoMovement(Vector2Int newCellPosition)
+    private void StartMovement(Vector2Int newCellPosition)
     {
         _nextGridPosition = newCellPosition;
         _characterController.ChangeCharacterStatus(ECharacterStatus.Moving);
@@ -98,33 +105,73 @@ public class CharacterMovement : MonoBehaviour
         _movingTimeStamp = 0;
         _movementOrigin = _worldController.GetWorldPosition(_gridPosition);
         _movementDestiny = _worldController.GetWorldPosition(_nextGridPosition);
+
+        Vector2Int offset = _nextGridPosition - _gridPosition;
+        SetMovementDir(offset);
+        _animator.SetTrigger(_movementDir.ToString());
     }
-    
+
+    private void SetMovementDir(Vector2Int offset)
+    {
+        if (offset.x > 0 || offset.y > 0)
+        {
+            if (_moving)
+            {
+                _movementDir = ECharacterMovement.BackWalk;
+            }
+            else
+            {
+                _movementDir = ECharacterMovement.BackIdle;
+            }
+
+            _spriteRenderer.flipX = offset.x > 0;
+        }
+        else
+        {
+            if (_moving)
+            {
+                _movementDir = ECharacterMovement.FrontWalk;
+            }
+            else
+            {
+                _movementDir = ECharacterMovement.FrontIdle;
+            }
+
+            _spriteRenderer.flipX = offset.x < 0;
+        }
+
+    }
+
     private void FinishMovement()
     {
         _characterController.ChangeCharacterStatus(ECharacterStatus.Idle);
         transform.position = _worldController.GetWorldPosition(_nextGridPosition);
+        _lastGridPosition = _gridPosition;
         _gridPosition = _nextGridPosition;
         _moving = false;
+
+        Vector2Int offset = _gridPosition - _lastGridPosition;
+        SetMovementDir(offset);
+        _animator.SetTrigger(_movementDir.ToString());
     }
-    
+
     private bool IsMoving()
     {
         return _moving;
     }
-    
+
     private Vector2Int GetCellObjetive()
     {
         Vector2Int cellObjetive = _gridPosition;
-        switch (_characterInput.CurrentStatus)
+        switch (_characterInput.CurrentInput)
         {
-            case ECharacterMovementStatus.UP:
+            case ECharacterInput.UP:
                 return cellObjetive + Vector2Int.up;
-            case ECharacterMovementStatus.DOWN:
+            case ECharacterInput.DOWN:
                 return cellObjetive + Vector2Int.down;
-            case ECharacterMovementStatus.LEFT:
+            case ECharacterInput.LEFT:
                 return cellObjetive + Vector2Int.left;
-            case ECharacterMovementStatus.RIGHT:
+            case ECharacterInput.RIGHT:
                 return cellObjetive + Vector2Int.right;
         }
 

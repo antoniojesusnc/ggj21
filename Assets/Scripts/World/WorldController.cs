@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldController : MonoBehaviour
@@ -15,6 +16,9 @@ public class WorldController : MonoBehaviour
 
     [SerializeField] private Dictionary<Vector2Int, CellInfo> _grid;
 
+    [Header("DEBUG GRID SCENE")] [SerializeField]
+    private bool _showGridScene;
+    
     private void Awake()
     {
         GenerateGrid();
@@ -82,7 +86,7 @@ public class WorldController : MonoBehaviour
 
     private void AddCellInto(Vector2Int cellPosition, ECellType type)
     {
-        Debug.Log($"wall detect {cellPosition}");
+        //Debug.Log($"wall detect {cellPosition}");
         
         var tempGo = new GameObject(cellPosition.ToString());
         tempGo.transform.position = GetWorldPosition(cellPosition);
@@ -93,7 +97,7 @@ public class WorldController : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"Grid cell Info already exist in {cellPosition.x}{cellPosition.y}");
+            //Debug.LogWarning($"Grid cell Info already exist in {cellPosition.x}{cellPosition.y}");
         }
     }
 
@@ -140,5 +144,40 @@ public class WorldController : MonoBehaviour
         Vector3 worldPosition = _botLeftSquare.transform.position + positionIncrement;
         worldPosition.y = _worldData.ExtraHeight;
         return worldPosition;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!_showGridScene)
+        {
+            return;
+        }
+
+        
+        // draw horizontal
+        var lineOrigin  = _botLeftSquare.transform.position + _botLeftSquare.transform.up * 0.1f;
+        lineOrigin -= _botLeftSquare.transform.right * _worldData.CellSize * 0.5f;
+        lineOrigin -= _botLeftSquare.transform.forward * _worldData.CellSize * 0.5f;
+        var lineDestiny = lineOrigin + _botLeftSquare.transform.right * _worldData.CellSize * _worldData.GridSize.x;
+        Vector3 step = _botLeftSquare.transform.forward * _worldData.CellSize;
+        for (int i = 0; i < _worldData.GridSize.y; i++)
+        {
+            Debug.DrawLine(lineOrigin, lineDestiny, Color.blue);
+            lineOrigin += step;
+            lineDestiny += step;
+        }
+        
+        // draw vertical
+        lineOrigin  = _botLeftSquare.transform.position + _botLeftSquare.transform.up * 0.1f;
+        lineOrigin -= _botLeftSquare.transform.right * _worldData.CellSize * 0.5f;
+        lineOrigin -= _botLeftSquare.transform.forward * _worldData.CellSize * 0.5f;
+        lineDestiny = lineOrigin + _botLeftSquare.transform.forward * _worldData.CellSize * _worldData.GridSize.y;
+        step = _botLeftSquare.transform.right * _worldData.CellSize;
+        for (int i = 0; i < _worldData.GridSize.x; i++)
+        {
+            Debug.DrawLine(lineOrigin, lineDestiny, Color.blue);
+            lineOrigin += step;
+            lineDestiny += step;
+        }
     }
 }
