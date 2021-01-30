@@ -53,6 +53,8 @@ public class CollectableManager : MonoBehaviour
             collectableController.ChangeCollectableStatus(ECollectableStatus.Collected);
             WorldController.AddCellInto(gridPosition, ECellType.None);
             
+            AudioController.Instance.PlaySound(EAudioType.SFXSteal);
+            
             if (HasAllCollected())
             {
                 _levelController.AllTilesCollected();

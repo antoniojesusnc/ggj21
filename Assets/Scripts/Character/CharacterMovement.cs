@@ -6,6 +6,9 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController _characterController;
     private ICharacterInput _characterInput;
 
+    [SerializeField]
+    private EAudioType _movementSound;
+    
     private WorldController WorldController
     {
         get
@@ -86,6 +89,8 @@ public class CharacterMovement : MonoBehaviour
         transform.position = Vector3.Lerp(_movementOrigin, _movementDestiny,
             (_movingTimeStamp - delayTime) / _characterController.CharacterData._characterSpeedBySquare);
 
+        AudioController.Instance.PlaySound(_movementSound);
+
         if (_movingTimeStamp >= _characterController.CharacterData._characterSpeedBySquare + delayTime)
         {
             FinishMovement();
@@ -111,7 +116,10 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            //Debug.LogWarning($"CANNOT Move to {cellObjetive}");
+            if (cellInfo.Type == ECellType.Wall)
+            {
+                AudioController.Instance.PlaySound(EAudioType.SFXWall);
+            }
         }
     }
 

@@ -14,10 +14,13 @@ public class AudioDataInfo
     public EAudioType type;
     public List<AudioClip> audios;
     public bool isLoop;
+    [Range(0,1)]
+    public float volume = 0.7f;
 }
 
 public enum EAudioType
 {
+    None= -1,
     MainMusic,
     BarLvl1,
     BarLvl2,
@@ -27,7 +30,7 @@ public enum EAudioType
     ThiefStep,
     GuardStep,
     SFXWall,
-    SFXSteal
+    SFXSteal,
     
 }
 

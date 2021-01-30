@@ -4662,6 +4662,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701513977}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &774459830 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1483871606, guid: c13cd3ca8a36f2e4cad45cedb90ef1ce, type: 3}
+  m_PrefabInstance: {fileID: 242372987}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &774459831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774459830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112f6f8096a468947accf069d10ca20a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioType: 4
 --- !u!1 &796342135
 GameObject:
   m_ObjectHideFlags: 0
@@ -6464,6 +6482,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1214637536}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1232311124 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2108373856, guid: c13cd3ca8a36f2e4cad45cedb90ef1ce, type: 3}
+  m_PrefabInstance: {fileID: 242372987}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1232311125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232311124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112f6f8096a468947accf069d10ca20a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioType: 5
 --- !u!1 &1239918878
 GameObject:
   m_ObjectHideFlags: 0
@@ -11087,6 +11123,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 238044066522207414, guid: faf14b03d1530b049aa94d6a20a07b25, type: 3}
+      propertyPath: _movementSound
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faf14b03d1530b049aa94d6a20a07b25, type: 3}
 --- !u!1001 &1140186532722427714
@@ -11310,6 +11350,10 @@ PrefabInstance:
     - target: {fileID: 2015041336656082601, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821219790623959793, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
+      propertyPath: _movementSound
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7913407768751329915, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
       propertyPath: m_Name

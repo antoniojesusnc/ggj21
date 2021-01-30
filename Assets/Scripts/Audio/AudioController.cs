@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AudioController : MonoBehaviour
 {
@@ -26,15 +28,11 @@ public class AudioController : MonoBehaviour
     
     public void StopSound(EAudioType audioType)
     {
-        for (int i = 0; i < _audioData.audios.Count; i++)
+        if (audioType == EAudioType.None)
         {
-            if (_audioData.audios[i].type == audioType &&
-                _audioData.audios[i].audios.Count > 0)
-            {
-                StopSoundInternal(_audioData.audios[i]);
-                break;
-            }
+            return;
         }
+        StopSoundInternal(GetAudioData(audioType));
     }
 
     private void StopSoundInternal(AudioDataInfo audioDataAudio)
@@ -43,7 +41,7 @@ public class AudioController : MonoBehaviour
         {
             for (int j = 0; j < _audioSource.Count; j++)
             {
-                if (audioDataAudio.audios[i] = _audioSource[j].clip)
+                if (audioDataAudio.audios[i] == _audioSource[j].clip)
                 {
                     _audioSource[j].Stop();
                     break;
@@ -54,14 +52,49 @@ public class AudioController : MonoBehaviour
 
     public void PlaySound(EAudioType audioType)
     {
+        if (audioType == EAudioType.None)
+        {
+            return;
+        }
+
+        if (IsPlaying(audioType))
+        {
+            return;
+        }
+
+        var audioData = GetAudioData(audioType);
+        PlaySoundInternal(audioData);
+    }
+
+    private AudioDataInfo GetAudioData(EAudioType audioType)
+    {
         for (int i = 0; i < _audioData.audios.Count; i++)
         {
             if (_audioData.audios[i].type == audioType &&
                 _audioData.audios[i].audios.Count > 0)
             {
-                PlaySoundInternal(_audioData.audios[i]);
+                return _audioData.audios[i];
             }
         }
+
+        return null;
+    }
+
+    private bool IsPlaying(EAudioType audioType)
+    {
+        var audioData = GetAudioData(audioType);
+        for (int j = 0; j < _audioSource.Count; j++)
+        {
+            for (int k = 0; k < audioData.audios.Count; k++)
+            {
+                if (_audioSource[j].isPlaying && 
+                    audioData.audios[k] == _audioSource[j].clip)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void PlaySoundInternal(AudioDataInfo audioInfo)
@@ -73,6 +106,7 @@ public class AudioController : MonoBehaviour
         audioSource.clip = audioClip;
         audioSource.Play();
         audioSource.loop = audioInfo.isLoop;
+        audioSource.volume = audioInfo.volume;
     }
 
     private AudioSource GetAudioSource()
@@ -90,6 +124,7 @@ public class AudioController : MonoBehaviour
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource.Add(audioSource);
         }
 
         return audioSource;
