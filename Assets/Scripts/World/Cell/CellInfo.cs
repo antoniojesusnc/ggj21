@@ -43,6 +43,7 @@ public class CellInfo: IEquatable<CellInfo>
             {
                 case ECellType.None:
                 case ECellType.Collectable:
+                case ECellType.SafeArea:
                     return true;
                 default:
                     return false;

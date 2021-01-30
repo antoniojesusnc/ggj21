@@ -22,11 +22,13 @@ public class LevelController : MonoBehaviour
 
     private CollectableManager _collectableManager;
     private SafeCellManager _safeCellManager;
+    private DetectionController _detectionController;
 
     private List<MonoBehaviour> _disableWhenLevelCompleteElements;
+
     public void AddDisableWhenLevelComplete(MonoBehaviour componentToDisable)
     {
-        if (_disableWhenLevelCompleteElements != null)
+        if (_disableWhenLevelCompleteElements == null)
         {
             _disableWhenLevelCompleteElements = new List<MonoBehaviour>();
         }
@@ -38,7 +40,7 @@ public class LevelController : MonoBehaviour
     {
         for (int i = 0; i < _disableWhenLevelCompleteElements.Count; i++)
         {
-            _disableWhenLevelCompleteElements[i].gameObject.SetActive(false);
+            _disableWhenLevelCompleteElements[i].enabled = false;
         }
     }
     
@@ -46,11 +48,12 @@ public class LevelController : MonoBehaviour
     {
         _collectableManager = GetComponent<CollectableManager>();
         _safeCellManager =  GetComponent<SafeCellManager>();
+        _detectionController = GetComponent<DetectionController>();
     }
     
     public void CharacterDetected(float distanceToTarget)
     {
-        Debug.Log($"CharacterDetected at {distanceToTarget}m");
+        _detectionController.CharacterDetected();
     }
 
     public void CheckForCollectable(PlayerController playerController)
@@ -79,6 +82,11 @@ public class LevelController : MonoBehaviour
         _safeCellManager.CheckForSafeArea(playerController.GridPosition);
     }
 
+    public void AllTilesCollected()
+    {
+        Debug.Log("RUN!!!");
+    }
+
     public void WinLevel()
     {
         Debug.Log("Win!!!");
@@ -89,5 +97,17 @@ public class LevelController : MonoBehaviour
     {
         Debug.Log("Game Over !!!");
         DisableAllElementsBecauseLevelComplete();
+    }
+
+    public void PlayerMoveToNewCell(PlayerController playerController)
+    {
+        if (!_collectableManager.HasAllCollected())
+        {
+            CheckForCollectable(playerController);
+        }
+        else
+        {
+            CheckForSafeArea(playerController);
+        }
     }
 }

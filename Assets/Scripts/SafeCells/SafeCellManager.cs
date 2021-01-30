@@ -12,7 +12,7 @@ public class SafeCellManager : MonoBehaviour
     void Start()
     {
         GetAllSafeCells();
-        _levelController.GetComponent<LevelController>();
+        _levelController = GetComponent<LevelController>();
     }
 
     private void GetAllSafeCells()

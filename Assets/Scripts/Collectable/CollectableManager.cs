@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CollectableManager : MonoBehaviour
@@ -18,12 +17,15 @@ public class CollectableManager : MonoBehaviour
     }
     private WorldController _worldController;
     
+    private LevelController _levelController;
+
     private Dictionary<Vector2Int, CollectableController> Collectables => _collectables;
     private Dictionary<Vector2Int, CollectableController> _collectables; 
     
     void Start()
     {
         GetAllCollectables();
+        _levelController = GetComponent<LevelController>();
     }
 
     private void GetAllCollectables()
@@ -50,7 +52,10 @@ public class CollectableManager : MonoBehaviour
             collectableController.ChangeCollectableStatus(ECollectableStatus.Collected);
             WorldController.AddCellInto(gridPosition, ECellType.None);
 
-            CheckIfAllCollected();
+            if (HasAllCollected())
+            {
+                _levelController.AllTilesCollected();
+            }
         }
         else
         {
@@ -58,7 +63,8 @@ public class CollectableManager : MonoBehaviour
         }
     }
     
-    private void CheckIfAllCollected()
+    
+    public bool HasAllCollected()
     {
         bool allCollected = true;
         foreach (var collectable in _collectables)
@@ -70,9 +76,6 @@ public class CollectableManager : MonoBehaviour
             }
         }
 
-        if (allCollected)
-        {
-            Debug.Log("All Collected!! RUN!!");
-        }
+        return allCollected;
     }
 }

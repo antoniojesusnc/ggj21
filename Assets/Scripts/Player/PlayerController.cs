@@ -30,8 +30,7 @@ public class PlayerController : CharacterController
 
         if (WasMoving)
         {
-            _levelController.CheckForCollectable(this);
-            _levelController.CheckForSafeArea(this);
+            _levelController.PlayerMoveToNewCell(this);
         }
     }
 
