@@ -1,14 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UIGame : MonoBehaviour
 {
+    public static UIGame Instance;
+    
     [SerializeField]
     private GameObject _victoryPopup;
     
     [SerializeField]
     private GameObject _gameOverPopup;
+
+    void Start()
+    {
+        Instance = this;
+    }
     
     public void OpenVictoryPopup()
     {
