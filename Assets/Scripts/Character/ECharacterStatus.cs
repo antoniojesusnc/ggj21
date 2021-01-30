@@ -3,4 +3,6 @@
     Idle,
     Moving,
     Stealing,
+    PlayerDetected,
+    PlayerSawLastSeconds,
 }

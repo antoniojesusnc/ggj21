@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CharacterInput : MonoBehaviour
+public class CharacterInput : MonoBehaviour, ICharacterInput
 {
     public const string XAxisName = "Horizontal";
     public const string YAxisName = "Vertical";

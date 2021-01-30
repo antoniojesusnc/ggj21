@@ -145,6 +145,19 @@ public class WorldController : MonoBehaviour
         worldPosition.y = _worldData.ExtraHeight;
         return worldPosition;
     }
+    
+    public Vector2Int GetGridPosition(Vector3 transformPosition)
+    {
+        float xDistance = transformPosition.x - _botLeftSquare.transform.position.x;
+        float yDistance = transformPosition.z - _botLeftSquare.transform.position.z;
+        
+        Vector2Int gridPosition = new Vector2Int(
+            Mathf.RoundToInt(xDistance/_worldData.CellSize),
+            Mathf.RoundToInt(yDistance/_worldData.CellSize)
+            );
+
+        return gridPosition;
+    }
 
     private void OnDrawGizmos()
     {
@@ -180,4 +193,4 @@ public class WorldController : MonoBehaviour
             lineDestiny += step;
         }
     }
-}
+    }

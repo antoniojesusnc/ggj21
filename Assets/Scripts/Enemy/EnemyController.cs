@@ -1,21 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : CharacterController
 {
     public FieldOfViewData FieldOfViewData => _fieldOfViewData;
     [SerializeField]
     private FieldOfViewData _fieldOfViewData;
-    
-    void Start()
+
+    private FieldOfViewController _fieldOfViewController;
+
+    private void Start()
     {
-        
+        _fieldOfViewController = GetComponentInChildren<FieldOfViewController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
-        
+        _fieldOfViewController.SetLookDirection(LookDirection);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
+using Unity.Mathematics;
 using UnityEngine;
 
 public class FieldOfViewController : MonoBehaviour
@@ -12,7 +12,11 @@ public class FieldOfViewController : MonoBehaviour
 	private Rigidbody _rigidbody;
 	private Camera _camera;
 
-	private Vector2Int _lockDirection;
+	[SerializeField]
+	private Vector2 _lockDirection;
+	bool _isChangingLookDirection = true;
+	float _timeStamp = 0;	
+	private Vector2 _nextLookDirection;
 
 	public List<Transform> Targets => _targets;
 	private List<Transform> _targets = new List<Transform>();
@@ -54,6 +58,33 @@ public class FieldOfViewController : MonoBehaviour
 	void LateUpdate()
 	{
 		DrawAllFieldOfView();
+
+		if (_isChangingLookDirection)
+		{
+			UpdateChangeLookDirection();
+		}
+	}
+
+	private void UpdateChangeLookDirection()
+	{
+		_timeStamp += Time.deltaTime;
+		
+		
+		Vector3 lookDirection3D = new Vector3(_lockDirection.x, 0, _lockDirection.y);  
+		Vector3 nextLookDirection3D = new Vector3(_nextLookDirection.x, 0, _nextLookDirection.y);
+		var rotation = Quaternion.Lerp(
+			Quaternion.LookRotation(lookDirection3D, Vector3.up),
+			Quaternion.LookRotation(nextLookDirection3D, Vector3.up),
+			_timeStamp /
+			                                             _enemyController.FieldOfViewData.timeToChangeLookDirection);
+		
+		Debug.Log(rotation.eulerAngles);
+		transform.rotation = rotation;
+
+		if (_timeStamp > _enemyController.FieldOfViewData.timeToChangeLookDirection)
+		{
+			FinishChangeLookDirection();
+		}
 	}
 
 	public Vector3 DirectionFromAngle(float angleInDegrees, bool isGlobalAngle)
@@ -126,8 +157,8 @@ public class FieldOfViewController : MonoBehaviour
 		ViewCastInfo oldViewCast = new ViewCastInfo();
 		for (int i = 0; i <= stepCount; i++)
 		{
-			float viewAngle = transform.eulerAngles.y - angle / 2 +
-			                  stepAngleSize * i;
+			float viewAngle = transform.eulerAngles.y - (angle / 2) +
+			                  (stepAngleSize * i);
 			ViewCastInfo newViewCast = ViewCast(viewAngle, distance);
 
 			if (i > 0)
@@ -261,5 +292,28 @@ public class FieldOfViewController : MonoBehaviour
 			PointA = newPointA;
 			PointB = newPointB;
 		}
+	}
+
+	public void SetLookDirection(Vector2 newLockDirection)
+	{
+		if (_isChangingLookDirection || _lockDirection == newLockDirection )
+		{
+			return;
+		}
+
+		StartChangeLookDirection(newLockDirection);
+	}
+
+	private void StartChangeLookDirection(Vector3 newLockDirection)
+	{
+		_nextLookDirection = newLockDirection;
+		_isChangingLookDirection = true;
+		_timeStamp = 0;
+	}
+
+	void FinishChangeLookDirection()
+	{
+		_isChangingLookDirection = false;
+		_lockDirection = _nextLookDirection;
 	}
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FieldOfViewData
   m_EditorClassIdentifier: 
   coneDistanceToShow: 8
-  coneAngleToShow: 60
+  coneAngleToShow: 100
   coneDistanceToDetect: 5.5
   coneAngleToDetect: 50
   circleDistanceToShow: 1.5
@@ -25,3 +25,4 @@ MonoBehaviour:
   edgeDistTreshold: 1
   lightExtraAngle: -10
   lightExtraDistance: 0
+  timeToChangeLookDirection: 1

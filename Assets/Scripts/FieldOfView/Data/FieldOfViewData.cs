@@ -33,4 +33,6 @@ public class FieldOfViewData : ScriptableObject
     
     [Header("Field of Light")] public float lightExtraAngle;
     public float lightExtraDistance;
+    
+    [Header("Anim switch LookDirection")] public float timeToChangeLookDirection;
 }

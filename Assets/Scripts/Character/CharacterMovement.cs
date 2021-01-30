@@ -6,7 +6,20 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     private CharacterController _characterController;
-    private CharacterInput _characterInput;
+    private ICharacterInput _characterInput;
+
+    private WorldController WorldController 
+    {
+        get
+        {
+            if (_worldController == null)
+            {
+                _worldController = FindObjectOfType<WorldController>();
+            }
+
+            return _worldController;
+        }
+    }
     private WorldController _worldController;
     private Animator _animator;
 
@@ -26,18 +39,23 @@ public class CharacterMovement : MonoBehaviour
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
-        _characterInput = GetComponent<CharacterInput>();
-        _worldController = GameObject.FindObjectOfType<WorldController>();
+        _characterInput = GetComponent(typeof(ICharacterInput)) as ICharacterInput;
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _animator = GetComponent<Animator>();
 
-        SetInitialPosition();
+        CalculateGridPosition();
     }
 
-    [ContextMenu("SetInitialPosition")]
-    private void SetInitialPosition()
+    [ContextMenu("CalculateGridPosition")]
+    private void CalculateGridPosition()
     {
-        transform.position = _worldController.GetWorldPosition(_gridPosition);
+        _gridPosition = WorldController.GetGridPosition(transform.position);
+        AdjustToGridPosition();
+    }
+    
+    private void AdjustToGridPosition()
+    {
+        transform.position = WorldController.GetWorldPosition(_gridPosition);
     }
 
     private void Update()
@@ -86,7 +104,7 @@ public class CharacterMovement : MonoBehaviour
     private void TryToMove()
     {
         Vector2Int cellObjetive = GetCellObjetive();
-        if (_worldController.CanMoveTo(cellObjetive, out var cellInfo))
+        if (WorldController.CanMoveTo(cellObjetive, out var cellInfo))
         {
             //Debug.LogWarning($"Moving to {cellObjetive}");
             StartMovement(cellObjetive);
@@ -103,12 +121,18 @@ public class CharacterMovement : MonoBehaviour
         _characterController.ChangeCharacterStatus(ECharacterStatus.Moving);
         _moving = true;
         _movingTimeStamp = 0;
-        _movementOrigin = _worldController.GetWorldPosition(_gridPosition);
-        _movementDestiny = _worldController.GetWorldPosition(_nextGridPosition);
+        _movementOrigin = WorldController.GetWorldPosition(_gridPosition);
+        _movementDestiny = WorldController.GetWorldPosition(_nextGridPosition);
 
         Vector2Int offset = _nextGridPosition - _gridPosition;
         SetMovementDir(offset);
+        SetLookingDir(offset);
         _animator.SetTrigger(_movementDir.ToString());
+    }
+
+    private void SetLookingDir(Vector2Int offset)
+    {
+        _characterController.SetLookDirection(offset);
     }
 
     private void SetMovementDir(Vector2Int offset)
@@ -145,9 +169,9 @@ public class CharacterMovement : MonoBehaviour
     private void FinishMovement()
     {
         _characterController.ChangeCharacterStatus(ECharacterStatus.Idle);
-        transform.position = _worldController.GetWorldPosition(_nextGridPosition);
         _lastGridPosition = _gridPosition;
         _gridPosition = _nextGridPosition;
+        AdjustToGridPosition();
         _moving = false;
 
         Vector2Int offset = _gridPosition - _lastGridPosition;
