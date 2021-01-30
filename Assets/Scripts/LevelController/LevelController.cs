@@ -26,6 +26,8 @@ public class LevelController : MonoBehaviour
 
     private List<MonoBehaviour> _disableWhenLevelCompleteElements;
 
+    public bool IsLevelFinished { get; private set; }
+    
     public void AddDisableWhenLevelComplete(MonoBehaviour componentToDisable)
     {
         if (_disableWhenLevelCompleteElements == null)
@@ -74,7 +76,18 @@ public class LevelController : MonoBehaviour
 
     private void CollectFromPosition(Vector2Int gridPosition)
     {
-        _collectableManager.CollectFromPosition(gridPosition);
+        bool collected = _collectableManager.TryCollectFromPosition(gridPosition, out var collectableType);
+        if (collected)
+        {
+            var uiSillouette = FindObjectOfType<UISillouettesContoller>();
+            if (uiSillouette == null)
+            {
+                Debug.LogWarning("UISillouettesContoller not found");
+                return;
+            }
+            
+            uiSillouette.SetSillouteAsComplete(collectableType);
+        }
     }
 
     public void CheckForSafeArea(PlayerController playerController)
@@ -91,12 +104,14 @@ public class LevelController : MonoBehaviour
     {
         Debug.Log("Win!!!");
         DisableAllElementsBecauseLevelComplete();
+        IsLevelFinished = true;
     }
     
     public void GameOverLevel()
     {
         Debug.Log("Game Over !!!");
         DisableAllElementsBecauseLevelComplete();
+        IsLevelFinished = true;
     }
 
     public void PlayerMoveToNewCell(PlayerController playerController)

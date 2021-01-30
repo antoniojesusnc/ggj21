@@ -1,5 +1,6 @@
 ﻿public enum ECollectableType
 {
+    None,
     Coin,
     CrashBandicoot,
     Minecraft,

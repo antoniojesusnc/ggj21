@@ -19,7 +19,7 @@ public class CollectableManager : MonoBehaviour
     
     private LevelController _levelController;
 
-    private Dictionary<Vector2Int, CollectableController> Collectables => _collectables;
+    public Dictionary<Vector2Int, CollectableController> Collectables => _collectables;
     private Dictionary<Vector2Int, CollectableController> _collectables; 
     
     void Start()
@@ -45,21 +45,26 @@ public class CollectableManager : MonoBehaviour
         }
     }
 
-    public void CollectFromPosition(Vector2Int gridPosition)
+    public bool TryCollectFromPosition(Vector2Int gridPosition, out ECollectableType collectableType)
     {
         if(_collectables.TryGetValue(gridPosition, out var collectableController))
         {
+            collectableType = collectableController.CollectableType;
             collectableController.ChangeCollectableStatus(ECollectableStatus.Collected);
             WorldController.AddCellInto(gridPosition, ECellType.None);
-
+            
             if (HasAllCollected())
             {
                 _levelController.AllTilesCollected();
             }
+
+            return true;
         }
         else
         {
+            collectableType = ECollectableType.None;
             Debug.LogError($"No collectable for position {gridPosition}");
+            return false;
         }
     }
     

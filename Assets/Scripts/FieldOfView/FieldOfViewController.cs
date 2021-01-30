@@ -113,7 +113,7 @@ public class FieldOfViewController : MonoBehaviour
 
 	IEnumerator FindTargetsEachTimeCo(float delay)
 	{
-		while (true)
+		while (!_levelController.IsLevelFinished)
 		{
 			yield return new WaitForSeconds(delay);
 			// cone

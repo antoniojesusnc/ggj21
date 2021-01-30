@@ -2,6 +2,10 @@
 
 public class CollectableController : MonoBehaviour
 {
+    public ECollectableType CollectableType => _collectableType;
+    [SerializeField]
+    private ECollectableType _collectableType;
+    
     public CollectableData CollectableData => _collectableData;
     [SerializeField]
     private CollectableData _collectableData;
