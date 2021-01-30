@@ -111,6 +111,7 @@ public class LevelController : MonoBehaviour
         DisableAllElementsBecauseLevelComplete();
         IsLevelFinished = true;
         
+        AudioController.Instance.StopAllSounds();
         UIGame.Instance.OpenVictoryPopup();
     }
     
@@ -120,6 +121,7 @@ public class LevelController : MonoBehaviour
         DisableAllElementsBecauseLevelComplete();
         IsLevelFinished = true;
         
+        AudioController.Instance.StopAllSounds();
         UIGame.Instance.OpenGameOver();
     }
 

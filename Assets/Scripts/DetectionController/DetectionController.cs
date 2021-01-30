@@ -31,7 +31,7 @@ public class DetectionController : MonoBehaviour
 
     public void CharacterDetected(float distance)
     {
-        Value += _detectionData.increasePerDistance * distance;
+        Value += _detectionData.increasePerDistance * distance*Time.deltaTime;
 
         int newAlertLevel = GetAlertLevelBaseOnValue();
         if (AlertLevel != newAlertLevel)
