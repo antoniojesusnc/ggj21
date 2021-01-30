@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.VersionControl;
+﻿using System.Collections.Generic;
+
 using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
+    public static bool CanInput; 
     private WorldController WorldController
     {
         get
@@ -21,31 +20,34 @@ public class LevelController : MonoBehaviour
 
     private WorldController _worldController;
 
-    private Dictionary<Vector2Int, CollectableController> Collectables => _collectables;
-    private Dictionary<Vector2Int, CollectableController> _collectables; 
+    private CollectableManager _collectableManager;
+    private SafeCellManager _safeCellManager;
+
+    private List<MonoBehaviour> _disableWhenLevelCompleteElements;
+    public void AddDisableWhenLevelComplete(MonoBehaviour componentToDisable)
+    {
+        if (_disableWhenLevelCompleteElements != null)
+        {
+            _disableWhenLevelCompleteElements = new List<MonoBehaviour>();
+        }
+        
+        _disableWhenLevelCompleteElements.Add(componentToDisable);
+    }
+
+    private void DisableAllElementsBecauseLevelComplete()
+    {
+        for (int i = 0; i < _disableWhenLevelCompleteElements.Count; i++)
+        {
+            _disableWhenLevelCompleteElements[i].gameObject.SetActive(false);
+        }
+    }
     
     void Start()
     {
-        GetAllCollectables();        
+        _collectableManager = GetComponent<CollectableManager>();
+        _safeCellManager =  GetComponent<SafeCellManager>();
     }
-
-    private void GetAllCollectables()
-    {
-        _collectables = new Dictionary<Vector2Int, CollectableController>();
-        var allCollectables = FindObjectsOfType<CollectableController>();
-        for (int i = 0; i < allCollectables.Length; i++)
-        {
-            var collectableMovement = allCollectables[i].GetComponent<CollectableMovement>();
-            if (collectableMovement == null)
-            {
-                Debug.LogWarning($"Collectable: {allCollectables[i]} doesn't have collectable movement" );
-                continue;
-            }
-            
-            _collectables.Add(collectableMovement.GridPosition, allCollectables[i]);
-        }
-    }
-
+    
     public void CharacterDetected(float distanceToTarget)
     {
         Debug.Log($"CharacterDetected at {distanceToTarget}m");
@@ -69,34 +71,23 @@ public class LevelController : MonoBehaviour
 
     private void CollectFromPosition(Vector2Int gridPosition)
     {
-        if(_collectables.TryGetValue(gridPosition, out var collectableController))
-        {
-            collectableController.ChangeCollectableStatus(ECollectableStatus.Collected);
-            WorldController.AddCellInto(gridPosition, ECellType.None);
-
-            CheckIfAllCollected();
-        }
-        else
-        {
-            Debug.LogError($"No collectable for position {gridPosition}");
-        }
+        _collectableManager.CollectFromPosition(gridPosition);
     }
 
-    private void CheckIfAllCollected()
+    public void CheckForSafeArea(PlayerController playerController)
     {
-        bool allCollected = true;
-        foreach (var collectable in _collectables)
-        {
-            allCollected = collectable.Value.CollectableStatus == ECollectableStatus.Collected;
-            if (!allCollected)
-            {
-                break;
-            }
-        }
+        _safeCellManager.CheckForSafeArea(playerController.GridPosition);
+    }
 
-        if (allCollected)
-        {
-            Debug.Log("All Collected!! RUN!!");
-        }
+    public void WinLevel()
+    {
+        Debug.Log("Win!!!");
+        DisableAllElementsBecauseLevelComplete();
+    }
+    
+    public void GameOverLevel()
+    {
+        Debug.Log("Game Over !!!");
+        DisableAllElementsBecauseLevelComplete();
     }
 }

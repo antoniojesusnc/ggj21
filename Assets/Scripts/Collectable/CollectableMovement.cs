@@ -25,7 +25,7 @@ public class CollectableMovement : MonoBehaviour
 
     private WorldController _worldController;
 
-    void Start()
+    void Awake()
     {
         _collectableController = GetComponent<CollectableController>();
         _originalPosition = transform.position;

@@ -7,6 +7,18 @@ public class CharacterInput : MonoBehaviour, ICharacterInput
     
     public ECharacterInput CurrentInput { get; private set; }
     public bool HasMovement => CurrentInput != ECharacterInput.NONE;
+
+    void Start()
+    {
+        DisableMeWhenLevelComplete();
+    }
+
+    private void DisableMeWhenLevelComplete()
+    {
+        var levelController = FindObjectOfType<LevelController>();
+        levelController.AddDisableWhenLevelComplete(this);
+    }
+
     void Update()
     {
         GetKeyboardInput();

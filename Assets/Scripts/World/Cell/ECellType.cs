@@ -4,4 +4,5 @@
     Wall,
     Obstacle,
     Collectable,
+    SafeArea,
 }
