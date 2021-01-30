@@ -53,7 +53,7 @@ public class LevelController : MonoBehaviour
     
     public void CharacterDetected(float distanceToTarget)
     {
-        _detectionController.CharacterDetected();
+        _detectionController.CharacterDetected(distanceToTarget);
     }
 
     public void CheckForCollectable(PlayerController playerController)
