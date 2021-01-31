@@ -10,7 +10,7 @@ public class CharacterSetVisibility : MonoBehaviour
     private Vector2Int _gridPosition;
     
     private CharacterMovement _characterMovement;
-    private PlayerController _characterController;
+    private PlayerController _playerController;
     private WorldController WorldController
     {
         get
@@ -27,8 +27,14 @@ public class CharacterSetVisibility : MonoBehaviour
     
     void Start()
     {
-        _characterController = FindObjectOfType<PlayerController>();
-        _characterMovement = FindObjectOfType<CharacterMovement>(); 
+        _playerController = FindObjectOfType<PlayerController>();
+        if (_playerController == null)
+        {
+            Debug.LogWarning("PlayerController not found");
+            return;
+        }
+
+        _characterMovement = _playerController.GetComponent<CharacterMovement>();
         
         AdjustToGridPosition();
     }
@@ -37,11 +43,11 @@ public class CharacterSetVisibility : MonoBehaviour
     {
         if (_playerVisiblity == EPlayerVisiblity.Show)
         {
-            _characterController.SetVisible();
+            _playerController.SetVisible();
         }
         if (_playerVisiblity == EPlayerVisiblity.Hide)
         {
-            _characterController.SetNotVisible();
+            _playerController.SetNotVisible();
         }
     }
     [ContextMenu("AdjustToGridPosition")]

@@ -91993,6 +91993,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1461056597229972000, guid: faf14b03d1530b049aa94d6a20a07b25, type: 3}
+      propertyPath: _messageData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2dbe5270585eddc438d565a8744ec26f, type: 2}
     - target: {fileID: 3292198027831797747, guid: faf14b03d1530b049aa94d6a20a07b25, type: 3}
       propertyPath: m_FlipX
       value: 0
