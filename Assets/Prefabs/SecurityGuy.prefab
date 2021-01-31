@@ -105,6 +105,36 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &1989065819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1989065820}
+  m_Layer: 12
+  m_Name: Path
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1989065820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989065819}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2015041336656082601}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &870551832593772570
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,6 +500,7 @@ Transform:
   m_Children:
   - {fileID: 7735944584208346513}
   - {fileID: 991288365788834439}
+  - {fileID: 1989065820}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -499,6 +530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d0383f9d459d04380782e90fc1e983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movementSound: 7
 --- !u!114 &1654968549201500821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,8 +574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56ae66306e70584c901f54f4e7b549f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _temp: 0
-  _input: 0
-  _debugInput: 0
-  _timestamp: 0
-  _walkFor: 2
+  _movementType: 0
+  _wayPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
