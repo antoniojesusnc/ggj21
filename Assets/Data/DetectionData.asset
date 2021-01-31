@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf1c3b6ec6a786c43b837db731115d0b, type: 3}
   m_Name: DetectionData
   m_EditorClassIdentifier: 
-  increasePerDistance: 25
+  increasePerDistance: 1
   decreasePerSeconds: 0.05
   maxValueFirstState: 2
   maxValueSecondState: 4

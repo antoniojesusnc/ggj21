@@ -39,6 +39,9 @@ public class FieldOfViewData : ScriptableObject
     
     [Header("Detection Icon")]
     public List<DetectionIconInfo> detectionIconColors;
+    
+    [Header("Freeze Player Detection Icon")]
+    public float timeFreezeWhenPlayerDetected;
 }
 
 [System.Serializable]

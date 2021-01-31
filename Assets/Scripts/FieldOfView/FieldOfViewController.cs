@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class FieldOfViewController : MonoBehaviour
@@ -49,6 +50,8 @@ public class FieldOfViewController : MonoBehaviour
 		_meshCircle.name = "FOVCircle";
 		_meshFilterCircle.mesh = _meshCircle;
 
+		_lockDirection = new Vector2(transform.forward.x, transform.forward.z);
+		
 		StartCoroutine(FindTargetsEachTimeCo(0.1f));
 	}
 
@@ -62,6 +65,13 @@ public class FieldOfViewController : MonoBehaviour
 		}
 	}
 
+	public void ResetLookDirection()
+	{
+		var currentLookDirection = _lockDirection;
+		_lockDirection = new Vector2(transform.forward.x, transform.forward.z);
+		StartChangeLookDirection(currentLookDirection);
+	}
+	
 	private void UpdateChangeLookDirection()
 	{
 		_timeStamp += Time.deltaTime;
@@ -158,6 +168,8 @@ public class FieldOfViewController : MonoBehaviour
 				float distanceToTarget = Vector3.Distance(transform.position, target.position);
 				if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, _obstacleMask))
 				{
+					_enemyController.CharacterDetected(directionToTarget);
+					
 					_levelController.CharacterDetected(distanceToTarget);
 					_targets.Add(target);
 					

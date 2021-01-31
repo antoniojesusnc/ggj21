@@ -28,4 +28,9 @@ public class CharacterController : MonoBehaviour
             CharacterStatus = newCharacterStatus;
         }
     }
+
+    public virtual void FinishMovement()
+    {
+        ChangeCharacterStatus(ECharacterStatus.Idle);
+    }
 }

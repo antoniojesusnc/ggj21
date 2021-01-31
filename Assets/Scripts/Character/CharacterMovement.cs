@@ -133,7 +133,7 @@ public class CharacterMovement : MonoBehaviour
         _movementDestiny = WorldController.GetWorldPosition(_nextGridPosition);
 
         Vector2Int offset = _nextGridPosition - _gridPosition;
-        SetMovementDir(offset);
+        _movementDir = GetMovementDir(offset);
         SetLookingDir(offset);
         _animator.SetTrigger(_movementDir.ToString());
     }
@@ -143,35 +143,47 @@ public class CharacterMovement : MonoBehaviour
         _characterController.SetLookDirection(offset);
     }
 
-    private void SetMovementDir(Vector2Int offset)
+    public ECharacterMovement GetMovementDirStopped(Vector2Int offset)
     {
-        if (offset.x > 0 || offset.y > 0)
+        if (offset.y < 0)
         {
-            if (_moving)
-            {
-                _movementDir = ECharacterMovement.BackWalk;
-            }
-            else
-            {
-                _movementDir = ECharacterMovement.BackIdle;
-            }
-
-            _spriteRenderer.flipX = offset.x > 0;
+            _spriteRenderer.flipX = offset.x < 0;
+            return ECharacterMovement.FrontIdle;
         }
         else
         {
+            _spriteRenderer.flipX = offset.x > 0;
+            return ECharacterMovement.BackIdle;
+        }
+    }
+    
+    public ECharacterMovement GetMovementDir(Vector2Int offset)
+    {
+        if (offset.x > 0 || offset.y > 0)
+        {
+            _spriteRenderer.flipX = offset.x > 0;
             if (_moving)
             {
-                _movementDir = ECharacterMovement.FrontWalk;
+                return ECharacterMovement.BackWalk;
             }
             else
             {
-                _movementDir = ECharacterMovement.FrontIdle;
+                return ECharacterMovement.BackIdle;
             }
 
-            _spriteRenderer.flipX = offset.x < 0;
         }
-
+        else
+        {
+            _spriteRenderer.flipX = offset.x < 0;
+            if (_moving)
+            {
+                return ECharacterMovement.FrontWalk;
+            }
+            else
+            {
+                return ECharacterMovement.FrontIdle;
+            }
+        }
     }
 
     private void FinishMovement()
@@ -180,11 +192,29 @@ public class CharacterMovement : MonoBehaviour
         _gridPosition = _nextGridPosition;
         AdjustToGridPosition();
         _moving = false;
-        _characterController.ChangeCharacterStatus(ECharacterStatus.Idle);
+        
+        _characterController.FinishMovement();
 
         Vector2Int offset = _gridPosition - _lastGridPosition;
-        SetMovementDir(offset);
-        _animator.SetTrigger(_movementDir.ToString());
+        _movementDir = GetMovementDir(offset);
+        SetAnimation(_movementDir);
+    }
+
+    public void SetAnimation(ECharacterMovement movementDir)
+    {
+        ResetAllTriggers();
+        _animator.SetTrigger(movementDir.ToString());
+    }
+
+    private void ResetAllTriggers()
+    {
+        foreach (AnimatorControllerParameter p in _animator.parameters)
+        {
+            if (p.type == AnimatorControllerParameterType.Trigger)
+            {
+                _animator.ResetTrigger(p.name);
+            }
+        }
     }
 
     private bool IsMoving()
