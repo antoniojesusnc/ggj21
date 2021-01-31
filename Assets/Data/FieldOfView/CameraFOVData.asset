@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CameraFOVData
   m_EditorClassIdentifier: 
   coneDistanceToShow: 6
-  coneAngleToShow: 60
+  coneAngleToShow: 50
   coneDistanceToDetect: 6
   coneAngleToDetect: 40
   circleDistanceToShow: 0
