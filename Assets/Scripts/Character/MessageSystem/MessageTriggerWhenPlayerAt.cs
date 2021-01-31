@@ -40,6 +40,12 @@ public class MessageTriggerWhenPlayerAt : MonoBehaviour
         _gridPosition = WorldController.GetGridPosition(transform.position);
     }
 
+    [ContextMenu("Adjust To Grid")]
+    public void AdjustToGrid()
+    {
+        var gridPosition = WorldController.GetGridPosition(transform.position);
+        transform.position = WorldController.GetWorldPosition(gridPosition);
+    }
     
     void Update()
     {

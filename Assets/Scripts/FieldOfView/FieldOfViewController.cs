@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class FieldOfViewController : MonoBehaviour
 {
+	[SerializeField] private bool _increaseDetection = true;
 	[SerializeField] private LayerMask _targetMask;
 	[SerializeField] private LayerMask _obstacleMask;
 
@@ -170,17 +171,20 @@ public class FieldOfViewController : MonoBehaviour
 				float distanceToTarget = Vector3.Distance(transform.position, target.position);
 				if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, _obstacleMask))
 				{
-					_enemyController.CharacterDetected(directionToTarget);
-					
-					_levelController.CharacterDetected(distanceToTarget);
+						_enemyController.CharacterDetected(directionToTarget);
+					if (_increaseDetection)
+					{
+						_levelController.CharacterDetected(distanceToTarget);
+					}
+
 					_targets.Add(target);
-					
+
 					detectedDistance = distanceToTarget;
 					detected = true;
 				}
 			}
 		}
-		
+
 		return detected;
 	}
 
