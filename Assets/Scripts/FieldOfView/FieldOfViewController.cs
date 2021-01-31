@@ -1,11 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class FieldOfViewController : MonoBehaviour
 {
-
 	[SerializeField] private LayerMask _targetMask;
 	[SerializeField] private LayerMask _obstacleMask;
 
@@ -33,7 +31,8 @@ public class FieldOfViewController : MonoBehaviour
 
 	[Header("Only use for debug proposal")] [SerializeField]
 	private FieldOfViewData _fieldOfViewData;
-
+	
+	[SerializeField] private SpriteRenderer _detectionIcon;
 	void Start()
 	{
 		_enemyController = GetComponentInParent<EnemyController>();
@@ -41,7 +40,6 @@ public class FieldOfViewController : MonoBehaviour
 
 		_rigidbody = GetComponent<Rigidbody>();
 		_camera = Camera.main;
-
 
 		_meshCone = new Mesh();
 		_meshCone.name = "FOVCone";
@@ -117,16 +115,36 @@ public class FieldOfViewController : MonoBehaviour
 		{
 			yield return new WaitForSeconds(delay);
 			// cone
-			FindVisibleTargets(_enemyController.FieldOfViewData.coneDistanceToDetect,
-				_enemyController.FieldOfViewData.coneAngleToDetect);
+			float detectedDistance = float.MaxValue;
+			bool detectedCone = FindVisibleTargets(_enemyController.FieldOfViewData.coneDistanceToDetect,
+				_enemyController.FieldOfViewData.coneAngleToDetect, out var tempDetectedDistance);
+			if (detectedCone)
+			{
+				detectedDistance = tempDetectedDistance;
+			}
 			// circle around
-			FindVisibleTargets(_enemyController.FieldOfViewData.circleDistanceToDetect,
-				_enemyController.FieldOfViewData.circleAngleToDetect);
+			bool detectedCircle = FindVisibleTargets(_enemyController.FieldOfViewData.circleDistanceToDetect,
+				_enemyController.FieldOfViewData.circleAngleToDetect, out tempDetectedDistance);
+			if (detectedCircle && detectedDistance> tempDetectedDistance)
+			{
+				detectedDistance = tempDetectedDistance;
+			}
+			
+			if (detectedDistance < float.MaxValue)
+			{
+				SetDetectionIcon(detectedDistance);
+			}
+			else
+			{
+				HideDetectionIcon();
+			}
 		}
 	}
 
-	private void FindVisibleTargets(float distance, float angle)
+	private bool FindVisibleTargets(float distance, float angle, out float detectedDistance)
 	{
+		bool detected = false;
+		detectedDistance = 0;
 		_targets.Clear();
 		Collider[] targetsInViewRadius =
 			Physics.OverlapSphere(transform.position, distance, _targetMask);
@@ -142,9 +160,45 @@ public class FieldOfViewController : MonoBehaviour
 				{
 					_levelController.CharacterDetected(distanceToTarget);
 					_targets.Add(target);
+					
+					detectedDistance = distanceToTarget;
+					detected = true;
 				}
 			}
 		}
+		
+		return detected;
+	}
+
+	private void HideDetectionIcon()
+	{
+		_detectionIcon.gameObject.SetActive(false);
+	}
+
+	private void SetDetectionIcon(float detectedDistance)
+	{
+		_detectionIcon.gameObject.SetActive(true);
+
+		Color originColor = _fieldOfViewData.detectionIconColors[0].color;
+		Color destinyColor = originColor;
+		float originDistance = _fieldOfViewData.detectionIconColors[0].distance;
+		float destinyDistance = originDistance;
+		for (int i = 0; i < _fieldOfViewData.detectionIconColors.Count; i++)
+		{
+			if (detectedDistance < _fieldOfViewData.detectionIconColors[i].distance)
+			{
+				destinyColor = _fieldOfViewData.detectionIconColors[i].color;
+				destinyDistance = _fieldOfViewData.detectionIconColors[i].distance;
+				break;
+			}
+			else
+			{
+				originColor = _fieldOfViewData.detectionIconColors[i].color;
+				originDistance = _fieldOfViewData.detectionIconColors[i].distance;
+			}
+		}
+		
+		_detectionIcon.color = Color.Lerp(originColor,destinyColor, (detectedDistance - originDistance)/(destinyDistance-originDistance ));
 	}
 
 	void DrawAllFieldOfView()

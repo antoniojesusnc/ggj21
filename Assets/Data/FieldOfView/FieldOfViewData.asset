@@ -26,3 +26,12 @@ MonoBehaviour:
   lightExtraAngle: -10
   lightExtraDistance: 0
   timeToChangeLookDirection: 0.2
+  detectionIconColors:
+  - distance: 0
+    color: {r: 1, g: 0.07075471, b: 0.07075471, a: 1}
+  - distance: 2
+    color: {r: 1, g: 0.2509804, b: 0, a: 1}
+  - distance: 4
+    color: {r: 0.9150943, g: 0.89000654, b: 0.082013145, a: 1}
+  - distance: 7
+    color: {r: 1, g: 1, b: 1, a: 1}
