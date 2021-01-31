@@ -17,13 +17,13 @@ MonoBehaviour:
   - type: 1
     text: Jajaja! Ahora que es de noche, es el momento perfecto para robar algunas
       ideas...
-    duration: 4
+    duration: 5
     onlyShowOnce: 1
     triggerMessage: 7
   - type: 2
     text: "Menos mal que esta c\xE1mara est\xE1 averiada. Pero las dem\xE1s aumentar\xE1n
       el nivel de alerta."
-    duration: 3
+    duration: 5
     onlyShowOnce: 0
     triggerMessage: 10
   - type: 4
@@ -38,17 +38,17 @@ MonoBehaviour:
     triggerMessage: 0
   - type: 7
     text: "Para crear un nuevo videojuego, deber\xEDa de tomar \"referencias\"."
-    duration: 4
+    duration: 5
     onlyShowOnce: 1
     triggerMessage: 9
   - type: 9
     text: Las tengo en la lista de abajo a la derecha. Hora de hacer maldades...
-    duration: 4
+    duration: 5
     onlyShowOnce: 1
     triggerMessage: 0
   - type: 8
     text: "Para ello no me deben de ver. Pero est\xE1 muy oscuro."
-    duration: 3
+    duration: 5
     onlyShowOnce: 0
     triggerMessage: 0
   - type: 10
