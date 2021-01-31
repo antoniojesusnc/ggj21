@@ -51,6 +51,8 @@ public class FieldOfViewController : MonoBehaviour
 		_meshFilterCircle.mesh = _meshCircle;
 
 		_lockDirection = new Vector2(transform.forward.x, transform.forward.z);
+		_nextLookDirection = _lockDirection;
+		_enemyController.SetLookDirection(_lockDirection);
 		
 		StartCoroutine(FindTargetsEachTimeCo(0.1f));
 	}
@@ -380,7 +382,7 @@ public class FieldOfViewController : MonoBehaviour
 		StartChangeLookDirection(newLockDirection);
 	}
 
-	private void StartChangeLookDirection(Vector3 newLockDirection)
+	private void StartChangeLookDirection(Vector2 newLockDirection)
 	{
 		_nextLookDirection = newLockDirection;
 		_isChangingLookDirection = true;
