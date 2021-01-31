@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GridSize: {x: 50, y: 50}
   CellSize: 1
-  ExtraHeight: 0.7
+  ExtraHeight: 0.25
