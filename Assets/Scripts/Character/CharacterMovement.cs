@@ -116,10 +116,12 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
+            AudioController.Instance.PlaySound(EAudioType.SFXWall);
+                /*
             if (cellInfo.Type == ECellType.Wall)
             {
-                AudioController.Instance.PlaySound(EAudioType.SFXWall);
             }
+            */
         }
     }
 

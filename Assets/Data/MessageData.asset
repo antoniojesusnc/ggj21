@@ -16,37 +16,37 @@ MonoBehaviour:
   messages:
   - type: 1
     text: Hahaha! Finnally at night, now is the perfect instant to steal some ideas....
-    duration: 5
+    duration: 3
     onlyShowOnce: 1
     triggerMessage: 7
   - type: 2
     text: Thanks good this camera is broken. The others will increase the alert level.
-    duration: 5
+    duration: 3
     onlyShowOnce: 0
     triggerMessage: 10
   - type: 4
     text: Hehehe! My game will be perfect. I only have to take the others games symbols.
-    duration: 3
+    duration: 2
     onlyShowOnce: 0
     triggerMessage: 0
   - type: 5
     text: The only remaining taks is exit from I come in... Piece a cake...
-    duration: 3
+    duration: 2
     onlyShowOnce: 0
     triggerMessage: 0
   - type: 7
     text: In order to create a video game, I should take "references"
-    duration: 5
+    duration: 3
     onlyShowOnce: 1
     triggerMessage: 9
   - type: 9
     text: I have it in the bot right of the screen. It's show time
-    duration: 5
+    duration: 3
     onlyShowOnce: 1
     triggerMessage: 0
   - type: 8
     text: To achieve this I must hide myself, but this is so dark.
-    duration: 5
+    duration: 3
     onlyShowOnce: 0
     triggerMessage: 0
   - type: 10

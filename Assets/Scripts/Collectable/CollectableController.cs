@@ -36,4 +36,9 @@ public class CollectableController : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    public void Disable()
+    {
+        gameObject.SetActive(false);
+    }
 }

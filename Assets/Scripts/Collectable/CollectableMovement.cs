@@ -38,7 +38,6 @@ public class CollectableMovement : MonoBehaviour
     {
         GridPosition = WorldController.GetGridPosition(transform.position);
         transform.position = WorldController.GetWorldPosition(GridPosition);
-        _worldController.AddCellInto(GridPosition, ECellType.Collectable);
     }
     void Update()
     {

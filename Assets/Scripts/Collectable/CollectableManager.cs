@@ -43,7 +43,7 @@ public class CollectableManager : MonoBehaviour
 
         for (int i = shuffleCollectables.Count - 1; i >= WorldController.WorldData.numCollectables; i--)
         {
-            shuffleCollectables[i].gameObject.SetActive(false);
+            shuffleCollectables[i].Disable();
         }
     }
 
@@ -78,6 +78,7 @@ public class CollectableManager : MonoBehaviour
             }
             
             _collectables.Add(collectableMovement.GridPosition, allCollectables[i]);
+            _worldController.AddCellInto(collectableMovement.GridPosition, ECellType.Collectable);
         }
     }
 
@@ -106,7 +107,7 @@ public class CollectableManager : MonoBehaviour
         else
         {
             collectableType = ECollectableType.None;
-            Debug.LogError($"No collectable for position {gridPosition}");
+            Debug.LogWarning($"No collectable for position {gridPosition}");
             return false;
         }
     }

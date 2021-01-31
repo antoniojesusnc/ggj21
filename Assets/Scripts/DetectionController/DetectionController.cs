@@ -39,8 +39,6 @@ public class DetectionController : MonoBehaviour
             SetNewALert(newAlertLevel);
         }
         
-        Debug.Log($"Value: {_value}  distance: {distance}");
-        
         if (Value >= _detectionData.maxValueThirdState)
         {
             _levelController.GameOverLevel();

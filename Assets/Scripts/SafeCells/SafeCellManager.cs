@@ -21,6 +21,11 @@ public class SafeCellManager : MonoBehaviour
         var allSafeCells = FindObjectsOfType<SafeCellController>();
         for (int i = 0; i < allSafeCells.Length; i++)
         {
+            if (_safeCells.ContainsKey(allSafeCells[i].GridPosition))
+            {
+                continue;
+            }
+
             _safeCells.Add(allSafeCells[i].GridPosition, allSafeCells[i]);
         }
     }

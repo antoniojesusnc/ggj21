@@ -17,17 +17,17 @@ MonoBehaviour:
     audios:
     - {fileID: 8300000, guid: 2d6477ffe8007bd4cbd4d32d4f979e7d, type: 3}
     isLoop: 1
-    volume: 0.3
+    volume: 0.2
   - type: 2
     audios:
     - {fileID: 8300000, guid: ef7416fce24f4f84b8a2f64873cbe374, type: 3}
     isLoop: 1
-    volume: 0.35
+    volume: 0.2
   - type: 3
     audios:
     - {fileID: 8300000, guid: 8be99607d5473db448554524f13c543e, type: 3}
     isLoop: 1
-    volume: 0.4
+    volume: 0.2
   - type: 8
     audios:
     - {fileID: 8300000, guid: 3d68bae62cfa35640879e33218fcdd65, type: 3}
@@ -69,4 +69,4 @@ MonoBehaviour:
     audios:
     - {fileID: 8300000, guid: 2d6477ffe8007bd4cbd4d32d4f979e7d, type: 3}
     isLoop: 1
-    volume: 0.5
+    volume: 0.4
