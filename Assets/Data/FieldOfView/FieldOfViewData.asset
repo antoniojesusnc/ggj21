@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coneDistanceToShow: 8
   coneAngleToShow: 100
-  coneDistanceToDetect: 5.5
-  coneAngleToDetect: 50
+  coneDistanceToDetect: 6
+  coneAngleToDetect: 75
   circleDistanceToShow: 1.5
   circleAngleToShow: 360
   circleDistanceToDetect: 1

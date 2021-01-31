@@ -34,7 +34,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c6ffbee96fec7124c924d86956d8fde6, type: 3}
     - {fileID: 8300000, guid: ab65e9bb90821274e862fcced6202861, type: 3}
     isLoop: 0
-    volume: 0.7
+    volume: 0.3
   - type: 9
     audios:
     - {fileID: 8300000, guid: b02c9fc148530204d8b5228f6cd43e5d, type: 3}
@@ -58,15 +58,15 @@ MonoBehaviour:
     - {fileID: 8300000, guid: d81666e8afd1d734abdee2d00d54fa3f, type: 3}
     - {fileID: 8300000, guid: d82e4c7ef711c4a439fb2e5963c10ee8, type: 3}
     isLoop: 0
-    volume: 0.7
+    volume: 0.8
   - type: 7
     audios:
     - {fileID: 8300000, guid: c2062129e0433fd4aa24f9e5afd485cd, type: 3}
     - {fileID: 8300000, guid: 00097bb4fec37e94eb0d845c8a9cecfd, type: 3}
     isLoop: 0
-    volume: 0.7
+    volume: 0.4
   - type: 0
     audios:
     - {fileID: 8300000, guid: 2d6477ffe8007bd4cbd4d32d4f979e7d, type: 3}
     isLoop: 1
-    volume: 0.7
+    volume: 0.5

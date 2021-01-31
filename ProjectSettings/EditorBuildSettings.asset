@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 4f23971d65ec44146b9c700ee58fd47a
   - enabled: 1
-    path: Assets/Scenes/Antonio.unity
-    guid: 53e257aef4754f042a36164f70ad03c6
+    path: Assets/Scenes/Nevel.unity
+    guid: 3d5456ea2d62d1b4385867c20fbfbd65
   m_configObjects: {}

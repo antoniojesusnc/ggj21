@@ -543,6 +543,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e49b2a4fb8cdee4fa770f795752fdef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movementType: 0
+  _wayPoints: []
 --- !u!95 &4312021616656259001
 Animator:
   serializedVersion: 3
