@@ -64,9 +64,9 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c2062129e0433fd4aa24f9e5afd485cd, type: 3}
     - {fileID: 8300000, guid: 00097bb4fec37e94eb0d845c8a9cecfd, type: 3}
     isLoop: 0
-    volume: 0.5
+    volume: 0.4
   - type: 0
     audios:
     - {fileID: 8300000, guid: 2d6477ffe8007bd4cbd4d32d4f979e7d, type: 3}
     isLoop: 1
-    volume: 0.7
+    volume: 0.5

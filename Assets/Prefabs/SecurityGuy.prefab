@@ -499,6 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d0383f9d459d04380782e90fc1e983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movementSound: 7
 --- !u!114 &1654968549201500821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,6 +512,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e49b2a4fb8cdee4fa770f795752fdef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movementType: 0
+  _wayPoints: []
 --- !u!95 &4312021616656259001
 Animator:
   serializedVersion: 3
