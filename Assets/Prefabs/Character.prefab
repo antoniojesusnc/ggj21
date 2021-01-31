@@ -51,6 +51,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterData: {fileID: 11400000, guid: faa942c16205c6d4382aa02c12443e0d, type: 2}
+  _viewMaterial: {fileID: 2100000, guid: 0461ea1025d21114ebb506e127cb91fc, type: 2}
+  _hideMaterial: {fileID: 2100000, guid: 3fee0ffdd6cd4ff4c8d28f894c21566d, type: 2}
 --- !u!114 &238044066522207414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,7 +163,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3fee0ffdd6cd4ff4c8d28f894c21566d, type: 2}
+  - {fileID: 2100000, guid: 0461ea1025d21114ebb506e127cb91fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -523,7 +525,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &195328841177017360
 Transform:
   m_ObjectHideFlags: 0

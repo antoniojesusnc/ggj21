@@ -4,6 +4,9 @@ public class PlayerController : CharacterController
 {
     private LevelController _levelController;
 
+    [SerializeField] private Material _viewMaterial;
+    [SerializeField] private Material _hideMaterial;
+    
     public Vector2Int GridPosition
     {
         get
@@ -37,4 +40,13 @@ public class PlayerController : CharacterController
     public bool WasMoving => LastCharacterStatus == ECharacterStatus.Moving &&
                              CharacterStatus == ECharacterStatus.Idle;
 
+    public void SetVisible()
+    {
+        GetComponentInChildren<SpriteRenderer>().material = _viewMaterial;
+    }
+    
+    public void SetNotVisible()
+    {
+        GetComponentInChildren<SpriteRenderer>().material = _hideMaterial;
+    }
 }

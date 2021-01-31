@@ -7,9 +7,9 @@ public class MessageTriggerWhenPlayerAt : MonoBehaviour
     [SerializeField] private EMessageType _messageType;
 
     private Vector2Int _lastPlayerPosition;
+    private Vector2Int _gridPosition;
     private CharacterMovement _characterMovement;
 
-    private Vector2Int _gridPosition;
     
     private WorldController WorldController
     {
