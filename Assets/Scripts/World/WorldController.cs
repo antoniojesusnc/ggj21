@@ -7,6 +7,7 @@ public class WorldController : MonoBehaviour
     public const string LAYER_WALL = "Wall";
     public const string LAYER_OBSTACLE = "Obstacle";
 
+    public WorldData WorldData => _worldData;
     [SerializeField] private WorldData _worldData;
 
     [Header("Fist square to start calculations")] [SerializeField]
