@@ -6,4 +6,7 @@ public class WorldData : ScriptableObject
     public Vector2 GridSize;
     public float CellSize;
     public float ExtraHeight;
+
+    [Header("Collectables Variable")]
+    public int numCollectables;
 }

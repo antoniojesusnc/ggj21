@@ -102,12 +102,13 @@ public class LevelController : MonoBehaviour
 
     public void AllTilesCollected()
     {
-        Debug.Log("RUN!!!");
+        MessageController.Instance.ShowMessage(EMessageType.AllCollectable);
     }
 
     public void WinLevel()
     {
-        Debug.Log("Win!!!");
+        MessageController.Instance.ShowMessage(EMessageType.LevelComplete);
+
         DisableAllElementsBecauseLevelComplete();
         IsLevelFinished = true;
         
@@ -117,7 +118,6 @@ public class LevelController : MonoBehaviour
     
     public void GameOverLevel()
     {
-        Debug.Log("Game Over !!!");
         DisableAllElementsBecauseLevelComplete();
         IsLevelFinished = true;
         

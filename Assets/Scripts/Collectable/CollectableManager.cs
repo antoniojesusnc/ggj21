@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CollectableManager : MonoBehaviour
 {
@@ -20,12 +22,42 @@ public class CollectableManager : MonoBehaviour
     private LevelController _levelController;
 
     public Dictionary<Vector2Int, CollectableController> Collectables => _collectables;
-    private Dictionary<Vector2Int, CollectableController> _collectables; 
+    private Dictionary<Vector2Int, CollectableController> _collectables;
+
+    private bool _firstCollectable;
     
     void Start()
     {
-        GetAllCollectables();
         _levelController = GetComponent<LevelController>();
+        
+        RandomizeCollectables();
+        GetAllCollectables();
+    }
+
+    private void RandomizeCollectables()
+    {
+        var allCollectables = FindObjectsOfType<CollectableController>();
+        List<CollectableController> shuffleCollectables = new List<CollectableController>();
+        shuffleCollectables.AddRange(allCollectables);
+        shuffleCollectables = Shuffle(shuffleCollectables);
+
+        for (int i = shuffleCollectables.Count - 1; i >= WorldController.WorldData.numCollectables; i--)
+        {
+            shuffleCollectables[i].gameObject.SetActive(false);
+        }
+    }
+
+    public static List<T> Shuffle<T>(List<T> _list)
+    {
+        for (int i = 0; i < _list.Count; i++)
+        {
+            T temp = _list[i];
+            int randomIndex = Random.Range(i, _list.Count);
+            _list[i] = _list[randomIndex];
+            _list[randomIndex] = temp;
+        }
+
+        return _list;
     }
 
     private void GetAllCollectables()
@@ -34,6 +66,10 @@ public class CollectableManager : MonoBehaviour
         var allCollectables = FindObjectsOfType<CollectableController>();
         for (int i = 0; i < allCollectables.Length; i++)
         {
+            if (!allCollectables[i].isActiveAndEnabled)
+            {
+                continue;
+            }
             var collectableMovement = allCollectables[i].GetComponent<CollectableMovement>();
             if (collectableMovement == null)
             {
@@ -54,6 +90,11 @@ public class CollectableManager : MonoBehaviour
             WorldController.AddCellInto(gridPosition, ECellType.None);
             
             AudioController.Instance.PlaySound(EAudioType.SFXSteal);
+
+            if (!_firstCollectable)
+            {
+                MessageController.Instance.ShowMessage(EMessageType.FirstCollectable);
+            }
             
             if (HasAllCollected())
             {
