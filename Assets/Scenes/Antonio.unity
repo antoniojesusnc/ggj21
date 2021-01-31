@@ -11349,18 +11349,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1316717472, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
-      propertyPath: _wayPoints.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1316717472, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
-      propertyPath: _wayPoints.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1316717472, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
-      propertyPath: _wayPoints.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2015041336656082601, guid: a1437c2fb1c0a074b8ad52c02b49ba45, type: 3}
       propertyPath: m_RootOrder
       value: 4

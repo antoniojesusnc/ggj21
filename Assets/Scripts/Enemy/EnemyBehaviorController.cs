@@ -33,10 +33,13 @@ public class EnemyBehaviorController : MonoBehaviour
     {
         _enemyController = GetComponent<EnemyController>();
         _characterMovement = GetComponent<CharacterMovement>();
-        GetGridPath();
-        if (_wayPointsVector.Count > 0)
+        if (_wayPoints.Count > 0)
         {
-            _nextWayPoint = _wayPointsVector[0];
+            GetGridPath();
+            if (_wayPointsVector.Count > 0)
+            {
+                _nextWayPoint = _wayPointsVector[0];
+            }
         }
     }
 
@@ -64,7 +67,7 @@ public class EnemyBehaviorController : MonoBehaviour
 
     void Update()
     {
-        if (_wayPointsVector.Count <= 0)
+        if (_wayPointsVector == null || _wayPointsVector.Count <= 0)
         {
             return;
         } 

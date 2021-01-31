@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 [CreateAssetMenu(fileName = "FieldOfViewData", menuName = "Data/New Field Of View Data", order = 1)]
 public class FieldOfViewData : ScriptableObject
 {
@@ -35,4 +36,14 @@ public class FieldOfViewData : ScriptableObject
     public float lightExtraDistance;
     
     [Header("Anim switch LookDirection")] public float timeToChangeLookDirection;
+    
+    [Header("Detection Icon")]
+    public List<DetectionIconInfo> detectionIconColors;
+}
+
+[System.Serializable]
+public class DetectionIconInfo
+{
+    public float distance;
+    public Color color;
 }
