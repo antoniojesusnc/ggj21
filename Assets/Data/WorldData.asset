@@ -15,3 +15,4 @@ MonoBehaviour:
   GridSize: {x: 50, y: 50}
   CellSize: 1
   ExtraHeight: 0.25
+  numCollectables: 3

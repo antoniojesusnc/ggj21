@@ -18,7 +18,7 @@ MonoBehaviour:
     text: InitialMessage
     duration: 3
     onlyShowOnce: 1
-    triggerMessage: 7
+    triggerMessage: 0
   - type: 2
     text: Camera Message
     duration: 3
