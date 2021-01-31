@@ -35,4 +35,4 @@ MonoBehaviour:
     color: {r: 0.9150943, g: 0.89000654, b: 0.082013145, a: 1}
   - distance: 7
     color: {r: 1, g: 1, b: 1, a: 1}
-  timeFreezeWhenPlayerDetected: 0
+  timeFreezeWhenPlayerDetected: 3

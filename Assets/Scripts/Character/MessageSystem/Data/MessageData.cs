@@ -28,5 +28,8 @@ public enum EMessageType
     FirstCollectable,
     AllCollectable,
     LevelComplete,
-    InitialMessage2
+    InitialMessage2,
+    InvisibleMessage,
+    InitialMessage3,
+    CameraMessage2
 }
