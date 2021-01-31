@@ -6,7 +6,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private CharacterData _characterData;
 
-    public Vector3 LookDirection { get; private set; }
+    public Vector2 LookDirection { get; private set; }
     
     public ECharacterStatus LastCharacterStatus { get; private set; }
     public ECharacterStatus CharacterStatus { get; private set; }
