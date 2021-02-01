@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterSpeedBySquare: 0.6
   _characterDelayStartWalk: 0.1
+  timeToFade: 0.3

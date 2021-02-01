@@ -1,5 +1,7 @@
 ﻿using System;
+using SimpleInputNamespace;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class CharacterInput : MonoBehaviour, ICharacterInput
 {
@@ -9,9 +11,16 @@ public class CharacterInput : MonoBehaviour, ICharacterInput
     public ECharacterInput CurrentInput { get; private set; }
     public bool HasMovement => CurrentInput != ECharacterInput.NONE;
 
+    
+    public float XValue { get; private set; }
+    public float YValue { get; private set; }
+
+    private AxisInputUIArrows _mobileInputs;
+    
     void Start()
     {
         DisableMeWhenLevelComplete();
+        _mobileInputs = FindObjectOfType<AxisInputUIArrows>();
     }
 
     private void DisableMeWhenLevelComplete()
@@ -20,6 +29,11 @@ public class CharacterInput : MonoBehaviour, ICharacterInput
         levelController.AddDisableWhenLevelComplete(this);
     }
 
+    public void SetInput(float x, float y)
+    {
+        XValue = x;
+        YValue = y;
+    }
 
     private void OnDisable()
     {
@@ -28,17 +42,40 @@ public class CharacterInput : MonoBehaviour, ICharacterInput
 
     void Update()
     {
+        ResetInputAxis();
         GetKeyboardInput();
+        GetMobileInput();
+        UpdateInput();
+    }
+
+    private void ResetInputAxis()
+    {
+        XValue = 0;
+        YValue = 0;
+    }
+
+    private void GetMobileInput()
+    {
+        if (_mobileInputs != null && _mobileInputs.isActiveAndEnabled)
+        {
+            XValue = _mobileInputs.xAxis.value;
+            YValue = _mobileInputs.yAxis.value;
+        }
     }
 
     private void GetKeyboardInput()
     {
+        XValue = Input.GetAxis(XAxisName);
+        YValue = Input.GetAxis(YAxisName);
+    }
+
+    private void UpdateInput()
+    {
         CurrentInput = ECharacterInput.NONE;
-        
-        float axisX = Input.GetAxis(XAxisName);  
-        if (axisX != 0)
+          
+        if (XValue != 0)
         {
-            if (axisX < 0)
+            if (XValue < 0)
             {
                 CurrentInput = ECharacterInput.LEFT;
             }else
@@ -47,10 +84,9 @@ public class CharacterInput : MonoBehaviour, ICharacterInput
             }
         }
         
-        float axisY = Input.GetAxis(YAxisName);  
-        if (axisY != 0)
+        if (YValue != 0)
         {
-            if (axisY < 0)
+            if (YValue < 0)
             {
                 CurrentInput = ECharacterInput.DOWN;
             }else
@@ -59,7 +95,7 @@ public class CharacterInput : MonoBehaviour, ICharacterInput
             }
         }
 
-        if (axisX != 0 && axisY != 0)
+        if (XValue != 0 && YValue != 0)
         {
             CurrentInput = 0;
         }

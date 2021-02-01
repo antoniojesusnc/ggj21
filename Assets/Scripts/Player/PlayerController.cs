@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerController : CharacterController
 {
@@ -42,11 +43,32 @@ public class PlayerController : CharacterController
 
     public void SetVisible()
     {
-        GetComponentInChildren<SpriteRenderer>().material = _viewMaterial;
+        StartCoroutine(ApplyAlphaColorCo(Color.clear, Color.white, 
+            _viewMaterial, _viewMaterial));
     }
     
     public void SetNotVisible()
     {
-        GetComponentInChildren<SpriteRenderer>().material = _hideMaterial;
+        StartCoroutine(ApplyAlphaColorCo(Color.white, Color.clear, 
+            _viewMaterial, _hideMaterial));
+    }
+
+    private IEnumerator ApplyAlphaColorCo(Color colorOrigin, Color colorDestiny, Material initialMaterial, Material finalMaterial)
+    {
+        var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer.color == colorDestiny )
+        {
+            yield break;
+        }
+
+        spriteRenderer.material = initialMaterial;
+        float timeStamp = 0;
+        while (timeStamp < CharacterData.timeToFade)
+        {
+            timeStamp += Time.deltaTime;
+            spriteRenderer.color = Color.Lerp(colorOrigin, colorDestiny, timeStamp / CharacterData.timeToFade);
+            yield return new WaitForEndOfFrame();
+        }
+        spriteRenderer.material = finalMaterial;
     }
 }

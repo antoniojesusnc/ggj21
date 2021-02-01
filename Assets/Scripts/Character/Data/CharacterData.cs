@@ -5,4 +5,6 @@ public class CharacterData : ScriptableObject
 {
     public float _characterSpeedBySquare;
     public float _characterDelayStartWalk;
+    
+    public float timeToFade;
 }
