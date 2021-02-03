@@ -43,8 +43,8 @@ public class CharacterInput : MonoBehaviour, ICharacterInput
     void Update()
     {
         ResetInputAxis();
-        GetKeyboardInput();
         GetMobileInput();
+        GetKeyboardInput();
         UpdateInput();
     }
 
@@ -65,8 +65,16 @@ public class CharacterInput : MonoBehaviour, ICharacterInput
 
     private void GetKeyboardInput()
     {
-        XValue = Input.GetAxis(XAxisName);
-        YValue = Input.GetAxis(YAxisName);
+        var newXValue = Input.GetAxis(XAxisName);
+        if (newXValue != 0)
+        {
+            XValue = newXValue;
+        }
+        var newYValue = Input.GetAxis(YAxisName);
+        if (newYValue != 0)
+        {
+            YValue = newYValue;
+        }
     }
 
     private void UpdateInput()
